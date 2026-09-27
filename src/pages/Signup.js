@@ -8,6 +8,7 @@ function Signup() {
         name: '',
         email: '',
         password: '',
+        role: 'student',
     })
 
     const navigate = useNavigate();
@@ -23,17 +24,24 @@ function Signup() {
     const handleSignup = async (e) => {
         e.preventDefault();
 
-        const { name, email, password } = signupInfo;
+        const { name, email, password, role } = signupInfo;
 
-        if (!name || !email || !password) {
+        // Check empty fields
+        if (!name || !email || !password || !role) {
             return handleError('Please fill in all fields');
         }
 
+        // Check MUJ email
+        if (!email.toLowerCase().endsWith('@muj.jaipur.edu')) {
+            return handleError('Please use your MUJ email address');
+        }
+
         try {
-            const url = 'https://backend-exam-paper.vercel.app/auth/signup'; 
+            const url = 'https://backend-exam-paper.vercel.app/auth/signup';
+
             const response = await fetch(url, {
                 method: 'POST',
-                headers: {  
+                headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(signupInfo),
@@ -96,8 +104,23 @@ function Signup() {
                         type='email'
                         name='email'
                         value={signupInfo.email}
-                        placeholder='Enter your Email...'
+                        placeholder='Enter your MUJ Email...'
                     />
+                </div>
+
+                <div>
+                    <label htmlFor='role'>
+                        Account Type:
+                    </label>
+
+                    <select
+                        name='role'
+                        value={signupInfo.role}
+                        onChange={handleChange}
+                    >
+                        <option value='student'>Student</option>
+                        <option value='teacher'>Teacher</option>
+                    </select>
                 </div>
 
                 <div>
@@ -131,3 +154,4 @@ function Signup() {
 }
 
 export default Signup
+
