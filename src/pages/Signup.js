@@ -30,11 +30,10 @@ function Signup() {
         }
 
         try {
-            const url = 'http://localhost:8080/auth/signup';
-
+            const url = 'https://backend-exam-paper.vercel.app/auth/signup'; 
             const response = await fetch(url, {
                 method: 'POST',
-                headers: {
+                headers: {  
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(signupInfo),
