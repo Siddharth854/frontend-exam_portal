@@ -51,6 +51,9 @@ function App() {
       <RefreshHandler setIsAuthenticated={setIsAuthenticated} />
 
       <Routes>
+
+        <Route path='/teachers' element={ <PrivateRoute element={<Teachers />} allowedRoles={['admin']}
+        /> } />
         
         <Route path='/' element={<Navigate to="/login" />} />
 

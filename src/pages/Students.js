@@ -1,7 +1,41 @@
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function Students() {
     const navigate = useNavigate();
+
+    const [students, setStudents] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [message, setMessage] = useState('');
+
+    useEffect(() => {
+        const fetchStudents = async () => {
+            try {
+                const response = await fetch(
+                    'https://backend-exam-paper.vercel.app/students'
+                );
+
+                const result = await response.json();
+
+                console.log('STUDENTS API RESPONSE:', result);
+
+                if (!response.ok) {
+                    setMessage(result.message || 'Unable to fetch students');
+                    return;
+                }
+
+                setStudents(result.students || []);
+
+            } catch (error) {
+                console.error('GET STUDENTS ERROR:', error);
+                setMessage('Unable to connect to the server');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchStudents();
+    }, []);
 
     return (
         <div>
@@ -11,17 +45,139 @@ function Students() {
                 Back to Dashboard
             </button>
 
-            <hr />
-
             <button onClick={() => navigate('/students/add')}>
                 Add Student
             </button>
 
             <h2>Student List</h2>
 
-            <p>No students added yet.</p>
+            {loading && <p>Loading students...</p>}
+
+            {message && <p>{message}</p>}
+
+            {!loading && !message && students.length === 0 && (
+                <p>No students added yet.</p>
+            )}
+
+            {!loading && students.length > 0 && (
+                <table border="1" cellPadding="10">
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Department</th>
+                            <th>Semester</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {students.map((student) => (
+                            <tr key={student._id}>
+                                <td>{student.studentId}</td>
+                                <td>{student.user?.name}</td>
+                                <td>{student.user?.email}</td>
+                                <td>{student.department}</td>
+                                <td>{student.semester}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
         </div>
     );
 }
 
 export default Students;
+
+// import { useEffect, useState } from 'react';
+// import { useNavigate } from 'react-router-dom';
+
+// function Students() {
+//     const navigate = useNavigate();
+
+//     const [students, setStudents] = useState([]);
+//     const [loading, setLoading] = useState(true);
+//     const [message, setMessage] = useState('');
+
+//     useEffect(() => {
+//         const fetchStudents = async () => {
+//             try {
+//                 const response = await fetch(
+//                     'https://backend-exam-paper.vercel.app/students'
+//                 );
+
+//                 const result = await response.json();
+
+//                 if (!response.ok) {
+//                     setMessage(result.message || 'Unable to fetch students');
+//                     return;
+//                 }
+
+//                 setStudents(result.students || []);
+
+//             } catch (error) {
+//                 console.error('GET STUDENTS ERROR:', error);
+//                 setMessage('Unable to connect to the server');
+//             } finally {
+//                 setLoading(false);
+//             }
+//         };
+
+//         fetchStudents();
+//     }, []);
+
+//     return (
+//         <div>
+//             <h1>Students Management</h1>
+
+//             <button onClick={() => navigate('/admin')}>
+//                 Back to Dashboard
+//             </button>
+
+//             <hr />
+
+//             <button onClick={() => navigate('/students/add')}>
+//                 Add Student
+//             </button>
+
+//             <h2>Student List</h2>
+
+//             {loading && <p>Loading students...</p>}
+
+//             {message && <p>{message}</p>}
+
+//             {!loading && !message && students.length === 0 && (
+//                 <p>No students added yet.</p>
+//             )}
+
+//             {!loading && students.length > 0 && (
+//                 <table border="1" cellPadding="10">
+//                     <thead>
+//                         <tr>
+//                             <th>Student ID</th>
+//                             <th>Name</th>
+//                             <th>Email</th>
+//                             <th>Department</th>
+//                             <th>Semester</th>
+//                         </tr>
+//                     </thead>
+
+//                     <tbody>
+//                         {students.map((student) => (
+//                             <tr key={student._id}>
+//                                 <td>{student.studentId}</td>
+//                                 <td>{student.user?.name}</td>
+//                                 <td>{student.user?.email}</td>
+//                                 <td>{student.department}</td>
+//                                 <td>{student.semester}</td>
+//                             </tr>
+//                         ))}
+//                     </tbody>
+//                 </table>
+//             )}
+//         </div>
+//     );
+// }
+
+// export default Students;

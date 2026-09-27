@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+    
 import './Admin.css';
 
 function Admin() {
@@ -28,7 +29,10 @@ function Admin() {
                     onClick={() => navigate('/students')}> Students
                 </button>
 
-                    <button className="sidebar-button">
+                    <button
+                        className="sidebar-button"
+                        onClick={() => navigate('/teachers')}
+                    >
                         Teachers
                     </button>
 
