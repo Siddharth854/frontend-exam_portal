@@ -39,15 +39,24 @@ function Login() {
             });
             const result = await response.json();
             console.log(result);
-            const {success, message, jwtToken,name, error} = result;
+            const {success, message, jwtToken, name, role, error} = result;
             if(success){
                 handleSuccess(message || 'Login successful');
+                
                 localStorage.setItem('token', jwtToken);
                 localStorage.setItem('loggedInUser', name);
+                localStorage.setItem('role', role);
 
-                setTimeout(()=>{
-                    navigate('/home');
-                },1000)
+                                setTimeout(() => {
+                    if (role === 'student') {
+                        navigate('/student');
+                    } else if (role === 'teacher') {
+                        navigate('/teacher');
+                    } else {
+                        navigate('/home');
+                    }
+                }, 1000);
+
             } else if(error){
                 const details = error?.details[0].message;
                 handleError(details);
