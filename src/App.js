@@ -7,6 +7,7 @@ import { useState } from 'react';
 import RefreshHandler from './RefreshHandler.js';  
 import Student from './pages/Student.js'
 import Teacher from './pages/Teacher.js'
+import Admin from './pages/Admin.js'
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] =useState(false);
@@ -24,6 +25,8 @@ function App() {
         <Route path='/home' element={<PrivateRoute element={<Home />} /> } />
         <Route path='/student' element={<PrivateRoute element={<Student />} />} />
         <Route path='/teacher' element={<PrivateRoute element={<Teacher />} />} />
+        <Route path='/admin' element={<PrivateRoute element={<Admin />} />} />
+        
       </Routes>
     </div>  
   )

@@ -47,11 +47,13 @@ function Login() {
                 localStorage.setItem('loggedInUser', name);
                 localStorage.setItem('role', role);
 
-                                setTimeout(() => {
+                    setTimeout(() => {
                     if (role === 'student') {
                         navigate('/student');
                     } else if (role === 'teacher') {
                         navigate('/teacher');
+                    } else if (role === 'admin') {
+                        navigate('/admin');
                     } else {
                         navigate('/home');
                     }
