@@ -25,8 +25,8 @@ useEffect(()=>{
     }
 
     try {
-fetch('https://backend-exam-paper.vercel.app/products', {
-          headers: { Authorization: token },
+const response = await fetch('https://backend-exam-paper.vercel.app/products', {
+      headers: { Authorization: token },
       });
       const result = await response.json();
       if (!response.ok) {
