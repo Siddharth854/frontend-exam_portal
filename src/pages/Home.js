@@ -36,8 +36,9 @@ const response = await fetch('https://backend-exam-paper.vercel.app/products', {
       console.log(result);
       setProducts(result);
     } catch (err) {
-      handleError('Unable to connect to the server');
-    }
+  console.error("PRODUCT FETCH ERROR:", err);
+  handleError('Unable to connect to the server');
+}
   };
 
   fetchProducts();
