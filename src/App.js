@@ -10,6 +10,7 @@ import Student from './pages/Student.js'
 import Teacher from './pages/Teacher.js'
 import Admin from './pages/Admin.js'
 import AddStudent from './pages/AddStudent.js'
+import Teachers from './pages/Teachers.js';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
