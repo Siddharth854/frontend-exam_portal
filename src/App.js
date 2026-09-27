@@ -11,6 +11,7 @@ import Teacher from './pages/Teacher.js'
 import Admin from './pages/Admin.js'
 import AddStudent from './pages/AddStudent.js'
 import Teachers from './pages/Teachers.js';
+import AddTeacher from './pages/AddTeacher.js';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -55,7 +56,11 @@ function App() {
 
         <Route path='/teachers' element={ <PrivateRoute element={<Teachers />} allowedRoles={['admin']}
         /> } />
-        
+
+        <Route path='/teachers/add' element={
+        <PrivateRoute element={<AddTeacher />} allowedRoles={['admin']}
+        /> } />
+  
         <Route path='/' element={<Navigate to="/login" />} />
 
         <Route path='/login' element={<Login />} />
