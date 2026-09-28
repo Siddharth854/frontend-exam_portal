@@ -12,6 +12,8 @@ import Admin from './pages/Admin.js'
 import AddStudent from './pages/AddStudent.js'
 import Teachers from './pages/Teachers.js';
 import AddTeacher from './pages/AddTeacher.js';
+import Courses from './pages/Courses.js';
+import AddCourse from './pages/AddCourse.js';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -54,6 +56,9 @@ function App() {
 
       <Routes>
 
+        <Route path='/courses' element={ <PrivateRoute element={<Courses />} allowedRoles={['admin']} 
+        /> } />
+
         <Route path='/teachers' element={ <PrivateRoute element={<Teachers />} allowedRoles={['admin']}
         /> } />
 
@@ -67,15 +72,8 @@ function App() {
 
         <Route path='/signup' element={<Signup />} />
 
-        <Route
-          path='/home'
-          element={
-            <PrivateRoute
-              element={<Home />}
-              allowedRoles={['student', 'teacher', 'admin']}
-            />
-          }
-        />
+        <Route path='/home' element={ <PrivateRoute element={<Home />} allowedRoles={['student', 'teacher', 'admin']}
+            /> } />
 
         <Route
           path='/student'
@@ -126,6 +124,13 @@ function App() {
             />
           }
         />
+
+        <Route
+    path='/courses/add'
+    element={ <PrivateRoute element={<AddCourse />} allowedRoles={['admin']} />
+        } />
+
+        
 
       </Routes>
     </div>

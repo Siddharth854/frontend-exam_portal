@@ -36,7 +36,9 @@ function Admin() {
                         Teachers
                     </button>
 
-                    <button className="sidebar-button">
+                    <button
+                        className="sidebar-button"
+                        onClick={() => navigate('/courses')} >
                         Courses
                     </button>
 
