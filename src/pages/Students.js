@@ -12,7 +12,8 @@ function Students() {
         const fetchStudents = async () => {
             try {
                 const response = await fetch(
-                    'https://backend-exam-paper.vercel.app/students'
+                   // 'https://backend-exam-paper.vercel.app/students'
+                   'https://backend-exam-paper.vercel.app/students'
                 );
 
                 const result = await response.json();
