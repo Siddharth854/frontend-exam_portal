@@ -13,7 +13,7 @@ function Login() {
     const navigate = useNavigate();
     const handleChange = (e) => {
         const { name, value } = e.target;
-        console.log(name,value);
+        //console.log(name,value);
         const copyLoginInfo = {...loginInfo};
         copyLoginInfo[name] = value;
         setLoginInfo(copyLoginInfo);
@@ -75,7 +75,8 @@ function Login() {
         }
     }
   return (
-    <div className='container'>
+    <div className="auth-page">
+    <div className="container">
 
       <h1>Login</h1>
       <form onSubmit={handleLogin}>
@@ -107,13 +108,14 @@ function Login() {
             />
         </div>
 
-        <button type='submit'>
+        <button className="auth-button" type="submit">
             Login
         </button>
         <span>Don't have an account? <Link to='/signup'>Signup</Link></span>
       </form>
       <ToastContainer />
     </div>  
+    </div>
   )
 }
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Management.css';
 
 function Teachers() {
     const navigate = useNavigate();
@@ -20,7 +21,9 @@ function Teachers() {
                 console.log('TEACHERS API RESPONSE:', result);
 
                 if (!response.ok) {
-                    setMessage(result.message || 'Unable to fetch teachers');
+                    setMessage(
+                        result.message || 'Unable to fetch teachers'
+                    );
                     return;
                 }
 
@@ -38,52 +41,88 @@ function Teachers() {
     }, []);
 
     return (
-        <div>
-            <h1>Teachers Management</h1>
+        <div className="management-page">
 
-            <button onClick={() => navigate('/admin')}>
-                Back to Dashboard
-            </button>
+            <div className="management-header">
 
-            <button onClick={() => navigate('/teachers/add')}>
-                Add Teacher
-            </button>
+                <h1>Teachers Management</h1>
 
-            <h2>Teacher List</h2>
+                <div className="management-actions">
 
-            {loading && <p>Loading teachers...</p>}
+                    <button
+                        className="management-button"
+                        onClick={() => navigate('/admin')}
+                    >
+                        Back to Dashboard
+                    </button>
 
-            {message && <p>{message}</p>}
+                    <button
+                        className="management-button"
+                        onClick={() => navigate('/teachers/add')}
+                    >
+                        Add Teacher
+                    </button>
 
-            {!loading && !message && teachers.length === 0 && (
-                <p>No teachers added yet.</p>
-            )}
+                </div>
 
-            {!loading && teachers.length > 0 && (
-                <table border="1" cellPadding="10">
-                    <thead>
-                        <tr>
-                            <th>Teacher ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Department</th>
-                            <th>Designation</th>
-                        </tr>
-                    </thead>
+            </div>
 
-                    <tbody>
-                        {teachers.map((teacher) => (
-                            <tr key={teacher._id}>
-                                <td>{teacher.teacherId}</td>
-                                <td>{teacher.user?.name}</td>
-                                <td>{teacher.user?.email}</td>
-                                <td>{teacher.department}</td>
-                                <td>{teacher.designation}</td>
+            <div className="management-card">
+
+                <h2>Teacher List</h2>
+
+                {loading && (
+                    <p className="management-message">
+                        Loading teachers...
+                    </p>
+                )}
+
+                {message && (
+                    <p className="management-message">
+                        {message}
+                    </p>
+                )}
+
+                {!loading && !message && teachers.length === 0 && (
+                    <p className="management-message">
+                        No teachers added yet.
+                    </p>
+                )}
+
+                {!loading && !message && teachers.length > 0 && (
+
+                    <table className="management-table">
+
+                        <thead>
+                            <tr>
+                                <th>Teacher ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Department</th>
+                                <th>Designation</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            )}
+                        </thead>
+
+                        <tbody>
+
+                            {teachers.map((teacher) => (
+                                <tr key={teacher._id}>
+                                    <td>{teacher.teacherId}</td>
+                                    <td>{teacher.user?.name}</td>
+                                    <td>{teacher.user?.email}</td>
+                                    <td>{teacher.department}</td>
+                                    <td>{teacher.designation}</td>
+                                </tr>
+                            ))}
+
+                        </tbody>
+
+                    </table>
+
+                )}
+
+            </div>
+
         </div>
     );
 }

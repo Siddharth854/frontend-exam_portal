@@ -15,10 +15,24 @@ html,body{
   width: 100%;
 }
 
-body{
-  display: flex;
-  justify-content: center;
-  align-items: center;
+body {
+    min-height: 100%;
+    width: 100%;
+}
+
+.auth-button {
+    background-color: purple;
+    border: none;
+    font-size: 20px;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+.auth-button:hover {
+    opacity: 0.9;
 }
 
 .container{
@@ -57,15 +71,16 @@ body{
   font-style: italic;
 }
 
-button{
-  background-color: purple;
-  border: none;
-  font-size: 20px;
-  color: white;
-  border-radius: 5px;
-  padding: 10px;
-  cursor: pointer;
-  margin: 10px 0;
-
+button {
+    border: none;
+    cursor: pointer;
 }
 
+.auth-page {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f4f6f9;
+}

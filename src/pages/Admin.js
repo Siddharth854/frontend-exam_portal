@@ -42,17 +42,21 @@ function Admin() {
                         Courses
                     </button>
 
-                    <button className="sidebar-button">
+                    <button className="sidebar-button"
+                            onClick={() => navigate('/classrooms')}>
                         Classrooms
                     </button>
 
-                    <button className="sidebar-button">
+                    <button className="sidebar-button"
+                            onClick={() => navigate('/exam-cycles')}>
                         Exam Cycles
                     </button>
 
-                    <button className="sidebar-button">
+                    <button className="sidebar-button"
+                            onClick={() => navigate('/exam-sessions')} >
                         Exam Sessions
                     </button>
+                    
                 </div>
 
                 <div className="sidebar-section">
@@ -73,6 +77,21 @@ function Admin() {
                     <button className="sidebar-button">
                         Invigilation Duty
                     </button>
+
+                    <button
+                        className="sidebar-button"
+                        onClick={() => navigate('/courses')}
+                    >
+                        Courses
+                    </button>
+
+                    <button
+                        className="sidebar-button"
+                        onClick={() => navigate('/classrooms')}
+                    >
+                        Classrooms
+                    </button>
+
                 </div>
 
             </aside>

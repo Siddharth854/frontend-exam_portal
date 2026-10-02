@@ -72,7 +72,8 @@ function Signup() {
     }
 
     return (
-        <div className='container'>
+        <div className="auth-page">
+            <div className='container'>
 
             <h1>Signup</h1>
 
@@ -137,7 +138,7 @@ function Signup() {
                     />
                 </div>
 
-                <button type='submit'>
+                <button className="auth-button" type="submit">
                     Signup
                 </button>
 
@@ -149,6 +150,7 @@ function Signup() {
 
             <ToastContainer />
 
+            </div>
         </div>
     )
 }

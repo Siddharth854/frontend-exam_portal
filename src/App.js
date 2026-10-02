@@ -6,7 +6,6 @@ import Home from './pages/Home.js'
 import { useState } from 'react';
 import RefreshHandler from './RefreshHandler.js';
 import Students from './pages/Students.js'
-import Student from './pages/Student.js'
 import Teacher from './pages/Teacher.js'
 import Admin from './pages/Admin.js'
 import AddStudent from './pages/AddStudent.js'
@@ -14,6 +13,12 @@ import Teachers from './pages/Teachers.js';
 import AddTeacher from './pages/AddTeacher.js';
 import Courses from './pages/Courses.js';
 import AddCourse from './pages/AddCourse.js';
+import Classrooms from './pages/Classrooms.js';
+import AddClassroom from './pages/AddClassroom.js';
+import ExamCycles from './pages/ExamCycles.js';
+import AddExamCycle from './pages/AddExamCycle.js';
+import ExamSessions from './pages/ExamSessions.js';
+import AddExamSession from './pages/AddExamSession.js';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -75,15 +80,6 @@ function App() {
         <Route path='/home' element={ <PrivateRoute element={<Home />} allowedRoles={['student', 'teacher', 'admin']}
             /> } />
 
-        <Route
-          path='/student'
-          element={
-            <PrivateRoute
-              element={<Student />}
-              allowedRoles={['student']}
-            />
-          }
-        />
 
         <Route
           path='/teacher'
@@ -130,7 +126,50 @@ function App() {
     element={ <PrivateRoute element={<AddCourse />} allowedRoles={['admin']} />
         } />
 
-        
+    <Route
+      path="/classrooms" element={
+      <PrivateRoute element={<Classrooms />} allowedRoles={['admin']} />
+      } />
+
+    <Route 
+      path="/classrooms/add" element={
+      <PrivateRoute element={<AddClassroom />} allowedRoles={['admin']} /> 
+      } />
+
+    <Route
+    path="/exam-cycles"
+    element={
+        <PrivateRoute
+            element={<ExamCycles />}
+            allowedRoles={['admin']} />
+            }
+        />
+
+    <Route path="/exam-cycles/add"
+    element={
+        <PrivateRoute
+            element={<AddExamCycle />}
+            allowedRoles={['admin']} />
+            }
+        />
+
+        <Route
+    path="/exam-sessions"
+    element={
+        <PrivateRoute
+            element={<ExamSessions />}
+            allowedRoles={['admin']} />
+            }
+        />
+
+        <Route
+    path="/exam-sessions/add"
+    element={
+        <PrivateRoute
+            element={<AddExamSession />}
+            allowedRoles={['admin']} />
+            }
+        />
 
       </Routes>
     </div>

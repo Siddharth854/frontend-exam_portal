@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Management.css';
 
 function Courses() {
     const navigate = useNavigate();
@@ -37,53 +38,99 @@ function Courses() {
         fetchCourses();
     }, []);
 
-    return (
-        <div>
-            <h1>Courses Management</h1>
+        return (
+        <div className="management-page">
 
-            <button onClick={() => navigate('/admin')}>
-                Back to Dashboard
-            </button>
+            <div className="management-header">
 
-            <button onClick={() => navigate('/courses/add')}>
-                Add Course
-            </button>
+                <h1>Courses Management</h1>
 
-            <h2>Course List</h2>
+                <div className="management-actions">
 
-            {loading && <p>Loading courses...</p>}
+                    <button
+                        className="management-button"
+                        onClick={() => navigate('/admin')}
+                    >
+                        Back to Dashboard
+                    </button>
 
-            {message && <p>{message}</p>}
+                    <button
+                        className="management-button"
+                        onClick={() => navigate('/courses/add')}
+                    >
+                        Add Course
+                    </button>
 
-            {!loading && !message && courses.length === 0 && (
-                <p>No courses added yet.</p>
-            )}
+                </div>
 
-            {!loading && courses.length > 0 && (
-                <table border="1" cellPadding="10">
-                    <thead>
-                        <tr>
-                            <th>Course Code</th>
-                            <th>Course Name</th>
-                            <th>Department</th>
-                            <th>Semester</th>
-                            <th>Exam Duration</th>
-                        </tr>
-                    </thead>
+            </div>
 
-                    <tbody>
-                        {courses.map((course) => (
-                            <tr key={course._id}>
-                                <td>{course.courseCode}</td>
-                                <td>{course.courseName}</td>
-                                <td>{course.department}</td>
-                                <td>{course.semester}</td>
-                                <td>{course.examDuration} minutes</td>
+            <div className="management-card">
+
+                <h2>Course List</h2>
+
+                {loading && (
+                    <p className="management-message">
+                        Loading courses...
+                    </p>
+                )}
+
+                {message && (
+                    <p className="management-message">
+                        {message}
+                    </p>
+                )}
+
+                {!loading && !message && courses.length === 0 && (
+                    <p className="management-message">
+                        No courses added yet.
+                    </p>
+                )}
+
+                {!loading && courses.length > 0 && (
+
+                    <table className="management-table">
+
+                        <thead>
+                            <tr>
+                                <th>Course Code</th>
+                                <th>Course Name</th>
+                                <th>Department</th>
+                                <th>Semester</th>
+                                <th>Exam Duration</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            )}
+                        </thead>
+
+                        <tbody>
+
+                            {courses.map((course) => (
+
+                                <tr key={course._id}>
+
+                                    <td>{course.courseCode}</td>
+
+                                    <td>{course.courseName}</td>
+
+                                    <td>{course.department}</td>
+
+                                    <td>{course.semester}</td>
+
+                                    <td>
+                                        {course.examDuration} minutes
+                                    </td>
+
+                                </tr>
+
+                            ))}
+
+                        </tbody>
+
+                    </table>
+
+                )}
+
+            </div>
+
         </div>
     );
 }
