@@ -24,6 +24,7 @@ import AddExamSchedule from './pages/AddExamSchedule.js';
 import CourseEnrollments from './pages/CourseEnrollments';
 import AddCourseEnrollment from './pages/AddCourseEnrollment';
 import Timetable from './pages/Timetable';
+import RoomAllocation from './pages/RoomAllocation.js';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -234,6 +235,16 @@ function App() {
                 allowedRoles={['student']}
               />
             }
+          />
+
+          <Route
+              path="/room-allocation"
+              element={
+                  <PrivateRoute
+                      element={<RoomAllocation />}
+                      allowedRoles={['admin']}
+                  />
+              }
           />
 
       </Routes>

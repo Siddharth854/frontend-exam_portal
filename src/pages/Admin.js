@@ -75,7 +75,10 @@ function Admin() {
                         Exam Schedules
                     </button>
 
-                    <button className="sidebar-button">
+                    <button
+                        className="scheduling-card"
+                        onClick={() => navigate('/room-allocation')}
+                    >
                         Room Allocation
                     </button>
 
@@ -182,12 +185,18 @@ function Admin() {
                             Timetable
                         </button>
 
-                        <button className="scheduling-card">
+                        <button
+                            className="scheduling-card"
+                            onClick={() => navigate('/timetable')}
+                        >
                             Room Allocation
                         </button>
 
-                        <button className="scheduling-card">
-                            Seating Arrangement
+                        <button
+                            className="scheduling-card"
+                            onClick={() => navigate('/room-allocation')}
+                        >
+                            Room Allocation
                         </button>
 
                         <button className="scheduling-card">
