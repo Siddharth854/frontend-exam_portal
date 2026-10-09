@@ -226,6 +226,16 @@ function App() {
               }
           />
 
+          <Route
+            path="/student"
+            element={
+              <PrivateRoute
+                element={<Students />}
+                allowedRoles={['student']}
+              />
+            }
+          />
+
       </Routes>
     </div>
   )
