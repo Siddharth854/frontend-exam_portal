@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './InvigilationDuty.css';
 import { useNavigate } from 'react-router-dom';
 
-const API_URL = 'http://localhost:8080';
+const API_URL = 'https://backend-exam-paper.vercel.app';
 
 const EXAM_CYCLE_ID = '6abb62c3ad097fe712b475fb';
 

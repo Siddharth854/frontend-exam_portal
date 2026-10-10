@@ -3,8 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SeatingArrangement.css';
 
-//const API_URL = 'https://backend-exam-paper.vercel.app';
-const API_URL = 'http://localhost:8080';
+const API_URL = 'https://backend-exam-paper.vercel.app';
 const COLUMNS = 6;
 
 

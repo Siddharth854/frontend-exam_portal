@@ -16,7 +16,7 @@ const [statsError, setStatsError] = useState('');
 
 useEffect(() => {
     const fetchStats = async () => {
-        const baseUrl = 'http://localhost:8080';
+        const baseUrl = 'https://backend-exam-paper.vercel.app';
         const token = localStorage.getItem('token');
 
         const endpoints = [
