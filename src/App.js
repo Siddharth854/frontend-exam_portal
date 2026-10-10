@@ -25,6 +25,8 @@ import CourseEnrollments from './pages/CourseEnrollments';
 import AddCourseEnrollment from './pages/AddCourseEnrollment';
 import Timetable from './pages/Timetable';
 import RoomAllocation from './pages/RoomAllocation.js';
+import SeatingArrangement from './pages/SeatingArrangement.js';
+import InvigilationDuty from './pages/InvigilationDuty.js';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -247,6 +249,26 @@ function App() {
               }
           />
 
+        <Route
+            path="/seating-arrangement"
+            element={
+                <PrivateRoute
+                    element={<SeatingArrangement />}
+                    allowedRoles={['admin']}
+                />
+            }
+        />
+
+        <Route
+            path="/invigilation-duty"
+            element={
+                <PrivateRoute
+                    element={<InvigilationDuty />}
+                    allowedRoles={['admin']}
+                />
+            }
+        />
+        
       </Routes>
     </div>
   )
