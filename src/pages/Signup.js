@@ -31,9 +31,11 @@ function Signup() {
             return handleError('Please fill in all fields');
         }
 
-        // Check MUJ email
-        if (!email.toLowerCase().endsWith('@muj.jaipur.edu')) {
-            return handleError('Please use your MUJ email address');
+        const normalizedEmail = email.trim().toLowerCase();
+        if (!normalizedEmail.endsWith('@muj.manipal.edu')) {
+            return handleError(
+                'Please use your university email ending with @muj.manipal.edu'
+            );
         }
 
         try {
@@ -44,7 +46,10 @@ function Signup() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(signupInfo),
+                body: JSON.stringify({
+                    ...signupInfo,
+                    email: normalizedEmail
+                }),
             });
 
             const result = await response.json();
@@ -105,7 +110,7 @@ function Signup() {
                         type='email'
                         name='email'
                         value={signupInfo.email}
-                        placeholder='Enter your MUJ Email...'
+                        placeholder='username@muj.manipal.edu'
                     />
                 </div>
 
