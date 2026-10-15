@@ -30,6 +30,10 @@ import InvigilationDuty from './pages/InvigilationDuty.js';
 import TeacherExamSchedule from './pages/TeacherExamSchedule.js';
 import TeacherInvigilationDuties from './pages/TeacherInvigilationDuties.js';
 import TeacherAssignedRooms from './pages/TeacherAssignedRooms.js';
+import StudentExamSchedule from './pages/StudentExamSchedule';
+import StudentSittingPlan from './pages/StudentSittingPlan';
+import AdminStudents from './pages/AdminStudents.js';
+import StudentExamShifts from './pages/StudentExamShifts.js';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -60,7 +64,7 @@ function App() {
     }
 
     if (!allowedRoles.includes(role)) {
-      return <Navigate to={getDashboard()} replace />;
+      return <Navigate to={getDashboard()} replace />; 
     }
 
     return element;
@@ -112,15 +116,15 @@ function App() {
           }
         />
 
-        <Route
-          path='/students'
-          element={
-            <PrivateRoute
-              element={<Students />}
-              allowedRoles={['admin']}
-            />
-          }
-        />
+              <Route
+        path="/students"
+        element={
+          <PrivateRoute
+            element={<AdminStudents />}
+            allowedRoles={['admin']}
+          />
+        }
+      />
 
         <Route
           path='/students/add'
@@ -298,6 +302,36 @@ function App() {
                 <PrivateRoute
                     element={<TeacherAssignedRooms />}
                     allowedRoles={['teacher']}
+                />
+            }
+        />
+
+        <Route
+            path="/student/exam-schedule"
+            element={
+                <PrivateRoute
+                    element={<StudentExamSchedule />}
+                    allowedRoles={['student']}
+                />
+            }
+        />
+
+        <Route
+            path="/student/sitting-plan"
+            element={
+                <PrivateRoute
+                    element={<StudentSittingPlan />}
+                    allowedRoles={['student']}
+                />
+            }
+        />
+
+        <Route
+            path="/student/exam-shifts"
+            element={
+                <PrivateRoute
+                    element={<StudentExamShifts />}
+                    allowedRoles={['student']}
                 />
             }
         />
