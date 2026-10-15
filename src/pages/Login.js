@@ -1,54 +1,68 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
-import {handleError , handleSuccess} from '../utils'
-import { useNavigate } from 'react-router-dom';
-
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import { handleError, handleSuccess } from '../utils';
+import './Auth.css';
 
 function Login() {
     const [loginInfo, setLoginInfo] = useState({
         email: '',
-        password: '',
-    })
+        password: ''
+    });
+
     const navigate = useNavigate();
+
     const handleChange = (e) => {
         const { name, value } = e.target;
-        //console.log(name,value);
-        const copyLoginInfo = {...loginInfo};
-        copyLoginInfo[name] = value;
-        setLoginInfo(copyLoginInfo);
-    }
-    //console.log(loginInfo);
+
+        setLoginInfo((previous) => ({
+            ...previous,
+            [name]: value
+        }));
+    };
+
     const handleLogin = async (e) => {
         e.preventDefault();
-        // console.log('Login form submitted', loginInfo);
-        // Here you can add your login logic, such as sending the data to a server
+
         const { email, password } = loginInfo;
-        if(!email || !password) {
-            // Handle validation errors
+
+        if (!email || !password) {
             return handleError('Please fill in all fields');
         }
-        try{
-            //const url = 'https://backend-exam-paper.vercel.app/auth/login';
-            const url = 'https://backend-exam-paper.vercel.app/auth/login'
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(loginInfo),
-            });
+
+        try {
+            const response = await fetch(
+                'https://backend-exam-paper.vercel.app/auth/login',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(loginInfo)
+                }
+            );
+
             const result = await response.json();
-            console.log(result);
-            const {success, message, jwtToken, name, role, error} = result;
-            if(success){
+
+            const {
+                success,
+                message,
+                jwtToken,
+                name,
+                email: accountEmail,
+                role,
+                error
+            } = result;
+
+            if (success) {
                 handleSuccess(message || 'Login successful');
-                
+
                 localStorage.setItem('token', jwtToken);
                 localStorage.setItem('loggedInUser', name);
+                localStorage.setItem('studentEmail', accountEmail);
                 localStorage.setItem('role', role);
 
-                    setTimeout(() => {
+                setTimeout(() => {
                     if (role === 'student') {
                         navigate('/student');
                     } else if (role === 'teacher') {
@@ -59,64 +73,66 @@ function Login() {
                         navigate('/home');
                     }
                 }, 1000);
-
-            } else if(error){
-                const details = error?.details[0].message;
-                handleError(details);
+            } else if (error) {
+                const details = error?.details?.[0]?.message;
+                handleError(details || message || 'Login failed');
+            } else {
+                handleError(message || 'Login failed');
             }
-            else if(!success)
-            {
-                handleError(message);
-            }
-            console.log(result);
-
-        }catch(err){
+        } catch (err) {
+            console.error('Login error:', err);
             handleError('An error occurred while logging in');
         }
-    }
-  return (
-    <div className="auth-page">
-    <div className="container">
+    };
 
-      <h1>Login</h1>
-      <form onSubmit={handleLogin}>
-        <div>
-            <label htmlFor='email'>
-                Email:
-            </label>
-            <input 
-                onChange={handleChange}
-                type='email'
-                name ='email'
-                autoComplete='off'
-                autoFocus  
-                placeholder='Enter your Email...'
-                value={loginInfo.email}
-            />
+    return (
+        <div className="auth-page">
+            <div className="container">
+                <h1>Login</h1>
+
+                <form onSubmit={handleLogin}>
+                    <div>
+                        <label htmlFor="email">Email Address</label>
+                        <input
+                            id="email"
+                            onChange={handleChange}
+                            type="email"
+                            name="email"
+                            autoComplete="email"
+                            autoFocus
+                            placeholder="Enter your email address"
+                            value={loginInfo.email}
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="password">Password</label>
+                        <input
+                            id="password"
+                            onChange={handleChange}
+                            type="password"
+                            name="password"
+                            autoComplete="current-password"
+                            value={loginInfo.password}
+                            placeholder="Enter your password"
+                            required
+                        />
+                    </div>
+
+                    <button className="auth-button" type="submit">
+                        SIGN IN
+                    </button>
+
+                    <span>
+                        Don't have an account? <Link to="/signup">Create one</Link>
+                    </span>
+                </form>
+
+                <ToastContainer />
+            </div>
         </div>
-
-         <div>
-            <label htmlFor='password'>
-                Password:
-            </label>
-            <input 
-                onChange={handleChange}
-                type='password'
-                name ='password'
-                value={loginInfo.password}
-                placeholder='Enter your Password...'
-            />
-        </div>
-
-        <button className="auth-button" type="submit">
-            Login
-        </button>
-        <span>Don't have an account? <Link to='/signup'>Signup</Link></span>
-      </form>
-      <ToastContainer />
-    </div>  
-    </div>
-  )
+    );
 }
 
-export default Login
+export default Login;

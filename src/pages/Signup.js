@@ -1,37 +1,39 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
-import { handleError, handleSuccess } from '../utils'
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import { handleError, handleSuccess } from '../utils';
+import './Auth.css';
 
 function Signup() {
     const [signupInfo, setSignupInfo] = useState({
         name: '',
         email: '',
         password: '',
-        role: 'student',
-    })
+        role: 'student'
+    });
 
     const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
 
-        const copySignupInfo = { ...signupInfo };
-        copySignupInfo[name] = value;
-        setSignupInfo(copySignupInfo);
-    }
+        setSignupInfo((previous) => ({
+            ...previous,
+            [name]: value
+        }));
+    };
 
     const handleSignup = async (e) => {
         e.preventDefault();
 
         const { name, email, password, role } = signupInfo;
 
-        // Check empty fields
         if (!name || !email || !password || !role) {
             return handleError('Please fill in all fields');
         }
 
         const normalizedEmail = email.trim().toLowerCase();
+
         if (!normalizedEmail.endsWith('@muj.manipal.edu')) {
             return handleError(
                 'Please use your university email ending with @muj.manipal.edu'
@@ -39,22 +41,21 @@ function Signup() {
         }
 
         try {
-            const url = 'https://backend-exam-paper.vercel.app/auth/signup';
-
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    ...signupInfo,
-                    email: normalizedEmail
-                }),
-            });
+            const response = await fetch(
+                'https://backend-exam-paper.vercel.app/auth/signup',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        ...signupInfo,
+                        email: normalizedEmail
+                    })
+                }
+            );
 
             const result = await response.json();
-            console.log(result);
-
             const { success, message, error } = result;
 
             if (success) {
@@ -65,100 +66,91 @@ function Signup() {
                 }, 1000);
             } else if (error) {
                 const details = error?.details?.[0]?.message || message;
-                handleError(details);
+                handleError(details || 'Signup failed');
             } else {
-                handleError(message);
+                handleError(message || 'Signup failed');
             }
-
         } catch (err) {
-            console.error(err);
+            console.error('Signup error:', err);
             handleError('An error occurred while signing up');
         }
-    }
+    };
 
     return (
         <div className="auth-page">
-            <div className='container'>
+            <div className="container">
+                <h1>Create Account</h1>
 
-            <h1>Signup</h1>
+                <form onSubmit={handleSignup}>
+                    <div>
+                        <label htmlFor="name">Full Name</label>
+                        <input
+                            id="name"
+                            onChange={handleChange}
+                            type="text"
+                            name="name"
+                            autoComplete="name"
+                            autoFocus
+                            placeholder="Enter your full name"
+                            value={signupInfo.name}
+                            required
+                        />
+                    </div>
 
-            <form onSubmit={handleSignup}>
+                    <div>
+                        <label htmlFor="email">University Email</label>
+                        <input
+                            id="email"
+                            onChange={handleChange}
+                            type="email"
+                            name="email"
+                            autoComplete="email"
+                            value={signupInfo.email}
+                            placeholder="username@muj.manipal.edu"
+                            required
+                        />
+                    </div>
 
-                <div>
-                    <label htmlFor='name'>
-                        Name:
-                    </label>
+                    <div>
+                        <label htmlFor="role">Account Type</label>
+                        <select
+                            id="role"
+                            name="role"
+                            value={signupInfo.role}
+                            onChange={handleChange}
+                        >
+                            <option value="student">Student</option>
+                            <option value="teacher">Teacher</option>
+                        </select>
+                    </div>
 
-                    <input
-                        onChange={handleChange}
-                        type='text'
-                        name='name'
-                        autoComplete='off'
-                        autoFocus
-                        placeholder='Enter your Name...'
-                        value={signupInfo.name}
-                    />
-                </div>
+                    <div>
+                        <label htmlFor="password">Password</label>
+                        <input
+                            id="password"
+                            onChange={handleChange}
+                            type="password"
+                            name="password"
+                            autoComplete="new-password"
+                            value={signupInfo.password}
+                            placeholder="Create a password"
+                            required
+                        />
+                    </div>
 
-                <div>
-                    <label htmlFor='email'>
-                        Email:
-                    </label>
+                    <button className="auth-button" type="submit">
+                        CREATE ACCOUNT
+                    </button>
 
-                    <input
-                        onChange={handleChange}
-                        type='email'
-                        name='email'
-                        value={signupInfo.email}
-                        placeholder='username@muj.manipal.edu'
-                    />
-                </div>
+                    <span>
+                        Already have an account? <Link to="/login">Sign in</Link>
+                    </span>
+                </form>
 
-                <div>
-                    <label htmlFor='role'>
-                        Account Type:
-                    </label>
-
-                    <select
-                        name='role'
-                        value={signupInfo.role}
-                        onChange={handleChange}
-                    >
-                        <option value='student'>Student</option>
-                        <option value='teacher'>Teacher</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label htmlFor='password'>
-                        Password:
-                    </label>
-
-                    <input
-                        onChange={handleChange}
-                        type='password'
-                        name='password'
-                        value={signupInfo.password}
-                        placeholder='Enter your Password...'
-                    />
-                </div>
-
-                <button className="auth-button" type="submit">
-                    Signup
-                </button>
-
-                <span>
-                    Already have an account? <Link to='/login'>Login</Link>
-                </span>
-
-            </form>
-
-            <ToastContainer />
-
+                <ToastContainer />
             </div>
         </div>
-    )
+    );
 }
 
-export default Signup
-
+export default Signup;
