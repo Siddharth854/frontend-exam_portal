@@ -1,6 +1,3 @@
-```css
-/* Shared Login and Signup styling */
-
 .auth-page {
     min-height: 100vh;
     padding: 32px 20px;
@@ -251,4 +248,3 @@
         transition: none;
     }
 }
-```
