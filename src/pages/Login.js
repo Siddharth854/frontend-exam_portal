@@ -123,10 +123,10 @@ function Login() {
                     <button className="auth-button" type="submit">
                         SIGN IN
                     </button>
-
-                    <span>
+                    {/* make it uncomment only when you want to make student refgistration public else  don't touch */}
+                    {/* <span>
                         Don't have an account? <Link to="/signup">Create one</Link>
-                    </span>
+                    </span> */}
                 </form>
 
                 <ToastContainer />
