@@ -1,0 +1,175 @@
+
+/* Add Student Page */
+
+.add-student-page {
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding: 48px 20px;
+    background: #f4f6f9;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #1e293b;
+}
+
+/* Form Card */
+
+.add-student-card {
+    width: 100%;
+    max-width: 620px;
+    box-sizing: border-box;
+    background: #ffffff;
+    padding: 36px 40px;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+/* Header */
+
+.add-student-header {
+    margin-bottom: 30px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid #e9edf3;
+}
+
+.add-student-header h1 {
+    margin: 0 0 10px;
+    font-size: 30px;
+    font-weight: 700;
+    color: #1e293b;
+    letter-spacing: -0.5px;
+}
+
+.add-student-header p {
+    margin: 0;
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* Form */
+
+.add-student-form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.add-student-field {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.add-student-field label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+}
+
+.add-student-field input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #1e293b;
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.add-student-field input::placeholder {
+    color: #94a3b8;
+}
+
+.add-student-field input:hover {
+    border-color: #94a3b8;
+}
+
+.add-student-field input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+/* Buttons */
+
+.add-student-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.add-student-actions button {
+    min-height: 46px;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.add-student-submit {
+    flex: 1;
+    border: 1px solid #1d4ed8;
+    background: #1d4ed8;
+    color: #ffffff;
+}
+
+.add-student-submit:hover {
+    background: #1e40af;
+    transform: translateY(-1px);
+}
+
+.add-student-cancel {
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #334155;
+}
+
+.add-student-cancel:hover {
+    background: #f1f5f9;
+}
+
+/* Success and Error Messages */
+
+.add-student-message {
+    padding: 13px 15px;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    background: #f0fdf4;
+    color: #166534;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Responsive Layout */
+
+@media (max-width: 600px) {
+    .add-student-page {
+        padding: 24px 14px;
+    }
+
+    .add-student-card {
+        padding: 26px 20px;
+        border-radius: 12px;
+    }
+
+    .add-student-header h1 {
+        font-size: 25px;
+    }
+
+    .add-student-actions {
+        flex-direction: column;
+    }
+
+    .add-student-actions button {
+        width: 100%;
+    }
+}
