@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './AddStudent.css';
 
 function AddStudent() {
     const navigate = useNavigate();
@@ -77,82 +78,96 @@ function AddStudent() {
     };
 
     return (
-        <div>
-            <h1>Add Student</h1>
+    <div className="add-student-page">
+        <div className="add-student-card">
+            <div className="add-student-header">
+                <h1>Add Student</h1>
+                <p>
+                    Register a student profile in the Exam Scheduling System.
+                </p>
+            </div>
 
-            <form onSubmit={handleSubmit}>
-
-                <div>
-                    <label>Student ID</label>
+            <form className="add-student-form" onSubmit={handleSubmit}>
+                <div className="add-student-field">
+                    <label htmlFor="studentId">Student ID</label>
                     <input
+                        id="studentId"
                         type="text"
                         name="studentId"
                         value={studentInfo.studentId}
                         onChange={handleChange}
                         placeholder="Enter student ID"
+                        required
                     />
                 </div>
 
-                <br />
-
-                <div>
-                    <label>Student Email</label>
+                <div className="add-student-field">
+                    <label htmlFor="email">Student Email</label>
                     <input
+                        id="email"
                         type="email"
                         name="email"
                         value={studentInfo.email}
                         onChange={handleChange}
                         placeholder="Enter student email"
+                        required
                     />
                 </div>
 
-                <br />
-
-                <div>
-                    <label>Department</label>
+                <div className="add-student-field">
+                    <label htmlFor="department">Department</label>
                     <input
+                        id="department"
                         type="text"
                         name="department"
                         value={studentInfo.department}
                         onChange={handleChange}
                         placeholder="Enter department"
+                        required
                     />
                 </div>
 
-                <br />
-
-                <div>
-                    <label>Semester</label>
+                <div className="add-student-field">
+                    <label htmlFor="semester">Semester</label>
                     <input
+                        id="semester"
                         type="number"
                         name="semester"
                         value={studentInfo.semester}
                         onChange={handleChange}
                         placeholder="Enter semester"
                         min="1"
+                        required
                     />
                 </div>
 
-                <br />
+                <div className="add-student-actions">
+                    <button
+                        type="submit"
+                        className="add-student-submit"
+                    >
+                        Add Student
+                    </button>
 
-                <button type="submit">
-                    Add Student
-                </button>
+                    <button
+                        type="button"
+                        className="add-student-cancel"
+                        onClick={() => navigate('/students')}
+                    >
+                        Cancel
+                    </button>
+                </div>
 
-                <button
-                    type="button"
-                    onClick={() => navigate('/students')}
-                >
-                    Cancel
-                </button>
-
+                {message && (
+                    <div className="add-student-message" role="status">
+                        {message}
+                    </div>
+                )}
             </form>
-
-            {message && (
-                <p>{message}</p>
-            )}
         </div>
-    );
+    </div>
+);
+
 }
 
 export default AddStudent;

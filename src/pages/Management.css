@@ -502,3 +502,761 @@
         grid-template-columns: 1fr;
     }
 }
+
+.course-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    height: 30px;
+    padding: 0 8px;
+    border-radius: 50%;
+    background: #e0e7ff;
+    color: #1e40af;
+    font-weight: 700;
+}
+
+.edit-registration-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border: none;
+    border-radius: 6px;
+    background: #e0e7ff;
+    color: #1d4ed8;
+    cursor: pointer;
+}
+
+.edit-registration-button:hover {
+    background: #c7d2fe;
+}
+
+.edit-registration-button:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+}
+
+
+.registration-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(15, 23, 42, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.registration-modal {
+    background: #fff;
+    color: #1e293b;
+    width: 100%;
+    max-width: 650px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.registration-modal h2 {
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.registration-modal form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.registration-modal input,
+.registration-modal select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #fff;
+    color: #1e293b;
+}
+
+.registration-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.registration-modal-actions button {
+    padding: 11px 16px;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    background: #1e293b;
+    color: white;
+}
+
+.registration-modal-actions .registration-delete-button {
+    margin-right: auto;
+    background: #dc2626;
+}
+
+.registration-modal-actions button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+/* =========================================
+   Resessional Exam Management - Page Design
+========================================= */
+
+.resessional-page {
+    background: #f5f7fc;
+    color: #17233b;
+    padding: 32px clamp(16px, 3vw, 42px);
+}
+
+.resessional-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 28px;
+    padding: 30px 32px;
+    border-radius: 18px;
+    background: linear-gradient(120deg, #172554, #3730a3 65%, #6366f1);
+    color: white;
+    box-shadow: 0 12px 28px rgba(49, 46, 129, 0.16);
+}
+
+.resessional-hero-content {
+    min-width: 0;
+}
+
+.resessional-eyebrow {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #818cf8;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.resessional-hero .resessional-eyebrow {
+    color: #c7d2fe;
+}
+
+.resessional-hero h1 {
+    margin: 0;
+    color: white;
+    font-size: clamp(25px, 3vw, 34px);
+    line-height: 1.2;
+    letter-spacing: -0.7px;
+}
+
+.resessional-hero p {
+    margin: 12px 0 0;
+    max-width: 620px;
+    color: #e0e7ff;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.resessional-dashboard-btn {
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.13) !important;
+    color: white;
+    border-radius: 9px;
+}
+
+.resessional-dashboard-btn:hover {
+    background: rgba(255, 255, 255, 0.23) !important;
+}
+
+/* Feedback banners */
+
+.resessional-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px 17px;
+    margin-bottom: 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.resessional-alert.success {
+    color: #166534;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+}
+
+.resessional-alert.error {
+    color: #b91c1c;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+}
+
+/* Statistics */
+
+.resessional-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.resessional-stat-card {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    min-width: 0;
+    padding: 23px;
+    border: 1px solid #e8ebf4;
+    border-radius: 15px;
+    background: white;
+    box-shadow: 0 5px 18px rgba(30, 41, 59, 0.035);
+}
+
+.resessional-stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    border-radius: 14px;
+    font-size: 25px;
+}
+
+.resessional-stat-icon.purple {
+    color: #6d28d9;
+    background: #f3e8ff;
+}
+
+.resessional-stat-icon.blue {
+    color: #1d4ed8;
+    background: #dbeafe;
+}
+
+.resessional-stat-icon.green {
+    color: #047857;
+    background: #d1fae5;
+}
+
+.resessional-stat-card p {
+    margin: 0 0 5px;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.resessional-stat-card h2 {
+    margin: 0;
+    color: #17233b;
+    font-size: 28px;
+    line-height: 1.2;
+}
+
+.resessional-stat-card span {
+    display: block;
+    margin-top: 5px;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+/* Cards */
+
+.resessional-page .management-card {
+    margin-bottom: 24px;
+    padding: clamp(20px, 3vw, 30px);
+    border: 1px solid #e8ebf4;
+    border-radius: 16px;
+    box-shadow: 0 5px 22px rgba(30, 41, 59, 0.045);
+}
+
+.resessional-section-heading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 26px;
+}
+
+.resessional-heading-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    border-radius: 13px;
+    background: #eef2ff;
+    color: #4338ca;
+    font-size: 27px;
+}
+
+.resessional-section-heading h2,
+.resessional-list-header h2 {
+    margin: 0;
+    color: #17233b;
+    font-size: 21px;
+    letter-spacing: -0.3px;
+}
+
+.resessional-section-heading p,
+.resessional-list-header p {
+    margin: 7px 0 0;
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* Registration form */
+
+.resessional-registration-form {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.resessional-field {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.resessional-field label {
+    margin-bottom: 9px;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.resessional-field select {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 13px;
+    border: 1px solid #d8deea;
+    border-radius: 9px;
+    background: #fff;
+    color: #1e293b;
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.resessional-field select:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.13);
+}
+
+.resessional-field select:disabled {
+    cursor: not-allowed;
+    background: #f1f5f9;
+    color: #94a3b8;
+}
+
+.resessional-field small {
+    margin-top: 8px;
+    color: #94a3b8;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.resessional-inline-error {
+    grid-column: 1 / -1;
+    margin: 0;
+    color: #b91c1c;
+    font-size: 13px;
+}
+
+.resessional-form-footer {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 2px;
+    padding-top: 22px;
+    border-top: 1px solid #edf0f6;
+}
+
+.resessional-form-footer p {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.resessional-submit-btn {
+    min-height: 45px;
+    padding: 12px 20px;
+    border-radius: 9px;
+    background: #4338ca !important;
+    font-weight: 700;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.resessional-submit-btn:hover {
+    background: #3730a3 !important;
+    transform: translateY(-1px);
+}
+
+.resessional-submit-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Registered student table */
+
+.resessional-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 22px;
+}
+
+.resessional-list-header .resessional-eyebrow {
+    margin-bottom: 8px;
+    color: #6366f1;
+}
+
+.resessional-record-badge {
+    flex-shrink: 0;
+    padding: 9px 13px;
+    border-radius: 9px;
+    background: #eef2ff;
+    color: #4338ca;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.resessional-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 0;
+}
+
+.resessional-table thead th {
+    padding: 15px 16px;
+    background: #f8f9fd;
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.7px;
+    white-space: nowrap;
+    border-top: 1px solid #edf0f6;
+    border-bottom: 1px solid #e8ebf4;
+}
+
+.resessional-table thead th:first-child {
+    border-radius: 9px 0 0 0;
+}
+
+.resessional-table thead th:last-child {
+    border-radius: 0 9px 0 0;
+}
+
+.resessional-table td {
+    padding: 17px 16px;
+    vertical-align: middle;
+    border-bottom: 1px solid #edf0f6;
+    color: #475569;
+    font-size: 13px;
+}
+
+.resessional-table tbody tr {
+    transition: background 0.2s;
+}
+
+.resessional-table tbody tr:hover {
+    background: #fafaff;
+}
+
+.resessional-student-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 150px;
+}
+
+.resessional-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 39px;
+    height: 39px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: #eef2ff;
+    color: #4338ca;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.resessional-student-cell strong {
+    display: block;
+    color: #1e293b;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+.resessional-student-cell small {
+    display: block;
+    margin-top: 4px;
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+.resessional-course-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 8px;
+    border-radius: 10px;
+    background: #eef2ff;
+    color: #4338ca;
+    font-size: 13px;
+    font-weight: 800;
+    box-sizing: border-box;
+}
+
+.resessional-course-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+    min-width: 170px;
+}
+
+.resessional-course-chip {
+    display: inline-block;
+    max-width: 300px;
+    padding: 7px 10px;
+    border: 1px solid #e5e7eb;
+    border-radius: 7px;
+    background: #f8fafc;
+    color: #334155;
+    font-size: 12px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.resessional-cycle-label {
+    display: inline-block;
+    max-width: 220px;
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.resessional-table .edit-registration-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 39px;
+    height: 39px;
+    border: 1px solid #e0e7ff;
+    border-radius: 10px;
+    background: #eef2ff;
+    color: #4338ca;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.resessional-table .edit-registration-button:hover {
+    background: #e0e7ff;
+    transform: translateY(-1px);
+}
+
+/* Empty states */
+
+.resessional-empty-state {
+    padding: 48px 20px;
+    border: 1px dashed #d8deea;
+    border-radius: 12px;
+    background: #fbfcff;
+    text-align: center;
+}
+
+.resessional-empty-state > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 14px;
+    border-radius: 16px;
+    background: #eef2ff;
+    color: #6366f1;
+    font-size: 27px;
+}
+
+.resessional-empty-state h3 {
+    margin: 0 0 8px;
+    color: #1e293b;
+    font-size: 17px;
+}
+
+.resessional-empty-state p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* Responsive layout */
+
+@media (max-width: 900px) {
+    .resessional-stats {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .resessional-registration-form {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .resessional-hero {
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 600px) {
+    .resessional-page {
+        padding: 18px 12px;
+    }
+
+    .resessional-hero {
+        flex-direction: column;
+        padding: 24px 20px;
+    }
+
+    .resessional-dashboard-btn {
+        width: 100%;
+    }
+
+    .resessional-list-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .resessional-form-footer {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .resessional-submit-btn {
+        width: 100%;
+    }
+
+    .resessional-table {
+        min-width: 760px;
+    }
+
+    .resessional-page .management-card {
+        padding: 18px 14px;
+    }
+}
+
+.registration-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.6);
+}
+
+.registration-modal {
+    width: 100%;
+    max-width: 540px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 28px;
+    border-radius: 16px;
+    background: white;
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.25);
+}
+
+.registration-modal h2 {
+    margin-top: 0;
+    color: #17233b;
+}
+
+.registration-modal p {
+    color: #64748b;
+    line-height: 1.6;
+}
+
+.registration-modal form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.registration-modal label {
+    margin-top: 8px;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.registration-modal select {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px;
+    border: 1px solid #d8deea;
+    border-radius: 8px;
+    background: white;
+    color: #1e293b;
+}
+
+.registration-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.registration-modal-actions button {
+    padding: 11px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #4338ca;
+    color: white;
+    cursor: pointer;
+}
+
+.registration-modal-actions button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.registration-modal-actions .registration-delete-button {
+    margin-right: auto;
+    background: #dc2626;
+}
+
+.registration-modal-actions .registration-delete-button:hover {
+    background: #b91c1c;
+}

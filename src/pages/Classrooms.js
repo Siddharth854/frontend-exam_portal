@@ -8,12 +8,26 @@ function Classrooms() {
     const [classrooms, setClassrooms] = useState([]);
     const [loading, setLoading] = useState(true);
     const [message, setMessage] = useState('');
-
+    
     useEffect(() => {
         const fetchClassrooms = async () => {
             try {
+                const token = localStorage.getItem('token');
+
+                if (!token) {
+                    setMessage('Session token not found. Please log in again.');
+                    return;
+                }
+
                 const response = await fetch(
-                    'https://backend-exam-paper.vercel.app/classrooms'
+                    'https://backend-exam-paper.vercel.app/classrooms',
+                    {
+                        method: 'GET',
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    }
                 );
 
                 const result = await response.json();
@@ -26,7 +40,6 @@ function Classrooms() {
                 }
 
                 setClassrooms(result.classrooms || []);
-
             } catch (error) {
                 console.error('GET CLASSROOMS ERROR:', error);
                 setMessage('Unable to connect to the server');

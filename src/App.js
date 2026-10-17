@@ -34,6 +34,7 @@ import StudentExamSchedule from './pages/StudentExamSchedule';
 import StudentSittingPlan from './pages/StudentSittingPlan';
 import AdminStudents from './pages/AdminStudents.js';
 import StudentExamShifts from './pages/StudentExamShifts.js';
+import ResessionalExams from "./pages/ResessionalExams.jsx";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -335,6 +336,16 @@ function App() {
                 />
             }
         />
+
+        <Route
+            path="/resessional-exams"
+            element={
+                <PrivateRoute
+                    element={<ResessionalExams />}
+                    allowedRoles={['admin']}
+                />
+            }
+        /> 
         
       </Routes>
     </div>

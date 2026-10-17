@@ -4,6 +4,21 @@ import './Management.css';
 
 function Students() {
     const navigate = useNavigate();
+        const storedUser = localStorage.getItem('loggedInUser');
+
+        let loggedInUser = {};
+
+        try {
+            loggedInUser = JSON.parse(storedUser || '{}');
+        } catch {
+            loggedInUser = {};
+        }
+
+        const studentName =
+            loggedInUser.name ||
+            loggedInUser.fullName ||
+            loggedInUser.username ||
+            'Student';
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -40,7 +55,7 @@ function Students() {
         <div className="management-page">
             <div className="management-header">
                 <div>
-                    <h1>Student Dashboard</h1>
+                    <h1>Welcome, {studentName}!</h1>
                     <p>View your examination information</p>
                 </div>
 
