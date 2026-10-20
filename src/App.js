@@ -87,11 +87,11 @@ function App() {
           <PrivateRoute element={<AddTeacher />} allowedRoles={['admin']}
           />} />
 
-        <Route path='/' element={<Navigate to="/login" />} />
+        <Route path='/' element={<Login />} />
 
-        <Route path='/login' element={<Login />} />
+        <Route   path='/login' element={<Navigate to="/" replace />} />
 
-        <Route path='/signup' element={<Signup />} />
+<Route path='/signup' element={<Signup />} />
 
         <Route path='/home' element={<PrivateRoute element={<Home />} allowedRoles={['student', 'teacher', 'admin']}
         />} />
