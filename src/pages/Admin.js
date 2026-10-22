@@ -1,8 +1,7 @@
-
 import './Admin.css';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import RegisterStudent from './RegisterStudent';
 function Admin() {
     const navigate = useNavigate();
 
@@ -234,7 +233,7 @@ function Admin() {
 
                 {/* Dashboard Statistics */}
                 <div className="dashboard-grid">
-
+                    
                     <div className="dashboard-card">
                         <h3>Students</h3>
                         <p>{stats.students ?? '—'}</p>
@@ -290,6 +289,14 @@ function Admin() {
                         <button
                             type="button"
                             className="scheduling-card"
+                            onClick={() => navigate('/register-student')}
+                        >
+                            + Register New Student
+                        </button>
+
+                        <button
+                            type="button"
+                            className="scheduling-card"
                             onClick={() => navigate('/timetable')}
                         >
                             Timetable
@@ -330,7 +337,6 @@ function Admin() {
                     </div>
 
                 </section>
-
             </main>
 
         </div>

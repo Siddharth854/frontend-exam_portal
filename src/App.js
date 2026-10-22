@@ -35,6 +35,7 @@ import StudentSittingPlan from './pages/StudentSittingPlan';
 import AdminStudents from './pages/AdminStudents.js';
 import StudentExamShifts from './pages/StudentExamShifts.js';
 import ResessionalExams from "./pages/ResessionalExams.jsx";
+import RegisterStudent from './pages/RegisterStudent';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -91,11 +92,20 @@ function App() {
 
         <Route   path='/login' element={<Navigate to="/" replace />} />
 
-<Route path='/signup' element={<Signup />} />
+        <Route path='/signup' element={<Signup />} />
 
         <Route path='/home' element={<PrivateRoute element={<Home />} allowedRoles={['student', 'teacher', 'admin']}
         />} />
 
+        <Route
+            path="/register-student"
+            element={
+                <PrivateRoute
+                    element={<RegisterStudent />}
+                    allowedRoles={['admin']}
+                />
+            }
+        />
 
         <Route
           path='/teacher'
