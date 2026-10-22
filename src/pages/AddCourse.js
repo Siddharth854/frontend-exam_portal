@@ -31,13 +31,13 @@ function AddCourse() {
         setMessage('');
 
         const {
-    courseCode,
-    courseName,
-    program,       // MCA, BSC, MSC, or BTECH
-    department,
-    semester,
-    examDuration
-} = courseInfo;
+            courseCode,
+            courseName,
+            program,
+            department,
+            semester,
+            examDuration
+        } = courseInfo;
 
         if (
             !courseCode.trim() ||
@@ -64,7 +64,7 @@ function AddCourse() {
                     body: JSON.stringify({
                         courseCode: courseCode.trim(),
                         courseName: courseName.trim(),
-                        program,
+                        program: program.trim().toUpperCase(),
                         department: department.trim(),
                         semester: Number(semester),
                         examDuration: Number(examDuration)
@@ -75,7 +75,9 @@ function AddCourse() {
             const result = await response.json();
 
             if (!response.ok) {
-                throw new Error(result.message || 'Unable to add course.');
+                throw new Error(
+                    result.message || 'Unable to add course.'
+                );
             }
 
             setMessage('Course added successfully.');
@@ -90,7 +92,9 @@ function AddCourse() {
             });
         } catch (error) {
             console.error('ADD COURSE ERROR:', error);
-            setMessage(error.message || 'Unable to connect to the server.');
+            setMessage(
+                error.message || 'Unable to connect to the server.'
+            );
         } finally {
             setSaving(false);
         }
@@ -142,6 +146,7 @@ function AddCourse() {
                     >
                         <option value="">Select program</option>
                         <option value="MCA">MCA</option>
+                        <option value="BCA">BCA</option>
                         <option value="BSC">BSc</option>
                         <option value="MSC">MSc</option>
                         <option value="BTECH">BTech</option>
@@ -175,6 +180,7 @@ function AddCourse() {
                         onChange={handleChange}
                         placeholder="Enter semester"
                         min="1"
+                        max="10"
                         required
                     />
                 </div>

@@ -12,6 +12,7 @@ function RegisterStudent() {
         password: '',
         studentId: '',
         department: '',
+        program: '',
         semester: '3'
     });
 
@@ -192,8 +193,7 @@ function RegisterStudent() {
                                 Enter the student's personal and academic details.
                             </p>
                         </div>
-                    </div>
-
+                    </div>                  
                     <form onSubmit={handleSubmit}>
                         <div className="register-form-grid">
                             <div className="register-form-group">
@@ -211,9 +211,7 @@ function RegisterStudent() {
                             </div>
 
                             <div className="register-form-group">
-                                <label htmlFor="student-email">
-                                    University Email
-                                </label>
+                                <label htmlFor="student-email">University Email</label>
                                 <input
                                     id="student-email"
                                     name="email"
@@ -227,9 +225,7 @@ function RegisterStudent() {
                             </div>
 
                             <div className="register-form-group">
-                                <label htmlFor="student-password">
-                                    Initial Password
-                                </label>
+                                <label htmlFor="student-password">Initial Password</label>
                                 <input
                                     id="student-password"
                                     name="password"
@@ -241,9 +237,7 @@ function RegisterStudent() {
                                     minLength={8}
                                     required
                                 />
-                                <small>
-                                    Use at least 8 characters.
-                                </small>
+                                <small>Use at least 8 characters.</small>
                             </div>
 
                             <div className="register-form-group">
@@ -262,9 +256,7 @@ function RegisterStudent() {
                             </div>
 
                             <div className="register-form-group">
-                                <label htmlFor="student-department">
-                                    Department
-                                </label>
+                                <label htmlFor="student-department">Department</label>
                                 <input
                                     id="student-department"
                                     name="department"
@@ -276,10 +268,27 @@ function RegisterStudent() {
                                 />
                             </div>
 
+                            {/* NEW: Program / Branch dropdown */}
                             <div className="register-form-group">
-                                <label htmlFor="student-semester">
-                                    Semester
-                                </label>
+                                <label htmlFor="student-program">Program / Branch</label>
+                                <select
+                                    id="student-program"
+                                    name="program"
+                                    value={formData.program}
+                                    onChange={handleChange}
+                                    required
+                                >
+                                    <option value="">Select program</option>
+                                    <option value="MCA">MCA</option>
+                                    <option value="BCA">BCA</option>
+                                    <option value="BSC">BSc</option>
+                                    <option value="MSC">MSc</option>
+                                    <option value="BTECH">BTech</option>
+                                </select>
+                            </div>
+
+                            <div className="register-form-group">
+                                <label htmlFor="student-semester">Semester</label>
                                 <input
                                     id="student-semester"
                                     name="semester"
@@ -311,9 +320,7 @@ function RegisterStudent() {
                         )}
 
                         <div className="register-form-footer">
-                            <p>
-                                Please verify all details before submitting.
-                            </p>
+                            <p>Please verify all details before submitting.</p>
 
                             <button
                                 type="submit"

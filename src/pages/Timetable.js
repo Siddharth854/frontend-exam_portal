@@ -132,7 +132,7 @@ function Timetable() {
     };
 
     return (
-        <div className="management-page">
+        <div className="management-page timetable-page">
 
             <div className="management-header">
 
@@ -155,7 +155,7 @@ function Timetable() {
             </div>
 
             
-<div className="form-card">
+<div className="form-card timetable-form-card">
 
     <div className="form-group">
         <label>Exam Cycle</label>
@@ -222,7 +222,7 @@ function Timetable() {
 
             {timetable.length > 0 && (
 
-                <div className="management-card">
+                <div className="management-card timetable-results-card">
 
                     <h2>Generated Timetable</h2>
 

@@ -15,6 +15,12 @@ function InvigilationDuty() {
     const [duties, setDuties] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [teachers, setTeachers] = useState([]);
+    const [editingDuty, setEditingDuty] = useState(null);
+    const [replacementTeacher, setReplacementTeacher] = useState('');
+    const [editSaving, setEditSaving] = useState(false);
+    const [editError, setEditError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
 
     const handleBackToDashboard = () => {
         navigate('/admin');
@@ -40,7 +46,20 @@ function InvigilationDuty() {
                     }
                 });
 
-                const data = await response.json();
+                const responseText = await response.text();
+
+let data;
+
+try {
+    data = JSON.parse(responseText);
+} catch {
+    throw new Error(
+        `Server returned HTML instead of JSON. ` +
+        `HTTP status: ${response.status}. ` +
+        `Request URL: ${response.url}. ` +
+        `Check the backend route and Vercel deployment.`
+    );
+}
 
                 if (!response.ok || data.success === false) {
                     throw new Error(
@@ -174,15 +193,106 @@ const generateDuties = async () => {
 
         return teacher.user?.name || teacher.teacherId || 'Unknown teacher';
     };
+    const handleEditDuty = async (duty) => {
+    setEditError('');
+    setSuccessMessage('');
+    setEditingDuty(duty);
+    setReplacementTeacher(duty.teacher?._id || '');
+    setEditSaving(false);
+
+    try {
+        const token = localStorage.getItem('token');
+
+        const response = await fetch(
+            `${API_URL}/invigilation-duties/teachers`,
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(
+                data.message || 'Failed to load available teachers.'
+            );
+        }
+
+        setTeachers(data.teachers || []);
+    } catch (err) {
+        setEditError(
+            err.message || 'Unable to load the teacher list.'
+        );
+    }
+};
+
+const handleSaveDuty = async () => {
+    if (!editingDuty || !replacementTeacher) {
+        setEditError('Please select a replacement teacher.');
+        return;
+    }
+
+    try {
+        setEditSaving(true);
+        setEditError('');
+        setSuccessMessage('');
+
+        const token = localStorage.getItem('token');
+
+        const response = await fetch(
+            `${API_URL}/invigilation-duties/${editingDuty._id}`,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    teacher: replacementTeacher
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(
+                data.message || 'Failed to update the invigilator.'
+            );
+        }
+
+        setEditingDuty(null);
+        setReplacementTeacher('');
+        setEditError('');
+
+        await fetchDuties(selectedCycle);
+
+        setSuccessMessage(data.message || 'Invigilator updated successfully.');
+    } catch (err) {
+        setEditError(
+            err.message || 'Unable to update the invigilator.'
+        );
+    } finally {
+        setEditSaving(false);
+    }
+};
+
+const handleCloseEdit = () => {
+    if (editSaving) return;
+
+    setEditingDuty(null);
+    setReplacementTeacher('');
+    setEditError('');
+};
 
     return (
         <div className="invigilation-page">
             <div className="invigilation-header">
                 <div>
                     <h1>Invigilation Duty Dashboard</h1>
-                    <p>
-                        Manage and review examination invigilation assignments.
-                    </p>
                 </div>
 
                 <div className="invigilation-actions">
@@ -327,6 +437,7 @@ const generateDuties = async () => {
                                 <th>Classroom</th>
                                 <th>Duty Role</th>
                                 <th>Status</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
 
@@ -368,12 +479,125 @@ const generateDuties = async () => {
                                             {duty.status || 'Unknown'}
                                         </span>
                                     </td>
+                                    <td>
+                                    <button
+                                        type="button"
+                                        className="invigilation-edit-btn"
+                                        onClick={() => handleEditDuty(duty)}
+                                        disabled={
+                                            duty.status === 'Cancelled' ||
+                                            duty.status === 'Completed'
+                                        }
+                                    >
+                                        ✎ Edit
+                                    </button>
+                                </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
             )}
+            {successMessage && (
+    <div className="invigilation-success" role="status">
+        {successMessage}
+    </div>
+)}
+
+{editingDuty && (
+    <div
+        className="invigilation-modal-overlay"
+        onClick={handleCloseEdit}
+    >
+        <div
+            className="invigilation-edit-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="edit-invigilator-title"
+            onClick={(event) => event.stopPropagation()}
+        >
+            <h2 id="edit-invigilator-title">
+                Edit Invigilator
+            </h2>
+
+            <div className="invigilation-edit-details">
+                <p>
+                    <strong>Exam date:</strong>{' '}
+                    {formatDate(editingDuty.examSession?.sessionDate)}
+                </p>
+
+                <p>
+                    <strong>Session:</strong>{' '}
+                    {editingDuty.examSession?.sessionType || '—'}
+                </p>
+
+                <p>
+                    <strong>Classroom:</strong>{' '}
+                    {editingDuty.classroom?.roomNumber || '—'}
+                </p>
+
+                <p>
+                    <strong>Current teacher:</strong>{' '}
+                    {getTeacherName(editingDuty.teacher)}
+                </p>
+            </div>
+
+            <label htmlFor="replacementTeacher">
+                Select Replacement Teacher
+            </label>
+
+            <select
+                id="replacementTeacher"
+                value={replacementTeacher}
+                onChange={(event) => {
+                    setReplacementTeacher(event.target.value);
+                    setEditError('');
+                }}
+                disabled={editSaving}
+            >
+                <option value="">-- Select Teacher --</option>
+
+                {teachers.map((teacher) => (
+                    <option key={teacher._id} value={teacher._id}>
+                        {teacher.teacherId || 'No ID'} —{' '}
+                        {getTeacherName(teacher)}
+                    </option>
+                ))}
+            </select>
+
+            <p className="invigilation-policy-note">
+                Each teacher can have a maximum of one invigilation
+                duty per calendar day across all exam cycles.
+            </p>
+
+            {editError && (
+                <div className="invigilation-conflict-warning" role="alert">
+                    {editError}
+                </div>
+            )}
+
+            <div className="invigilation-modal-actions">
+                <button
+                    type="button"
+                    onClick={handleCloseEdit}
+                    disabled={editSaving}
+                    className="invigilation-cancel-btn"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="button"
+                    onClick={handleSaveDuty}
+                    disabled={editSaving || !replacementTeacher}
+                    className="invigilation-save-btn"
+                >
+                    {editSaving ? 'Saving...' : 'Save Changes'}
+                </button>
+            </div>
+        </div>
+    </div>
+)}
         </div>
     );
 }
