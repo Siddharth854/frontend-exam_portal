@@ -37,6 +37,7 @@ import StudentExamShifts from './pages/StudentExamShifts.js';
 import ResessionalExams from "./pages/ResessionalExams.jsx";
 import RegisterStudent from './pages/RegisterStudent';
 import BulkRegisterStudents from './pages/BulkRegisterStudents';
+import AssignCoursesToBatch from './pages/AssignCoursesToBatch.js';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -366,6 +367,16 @@ function App() {
                 />
             }
         /> 
+
+        <Route
+            path="/assign-courses-batch"
+            element={
+                <PrivateRoute
+                    element={<AssignCoursesToBatch />}
+                    allowedRoles={['admin']}
+                />
+            }
+        />
         
       </Routes>
     </div>

@@ -1,7 +1,7 @@
 import './Admin.css';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import RegisterStudent from './RegisterStudent';
+
 function Admin() {
     const navigate = useNavigate();
 
@@ -332,6 +332,14 @@ function Admin() {
                             onClick={() => navigate('/resessional-exams')}
                         >
                             Resessional Exam Management
+                        </button>
+
+                        <button
+                            type="button"
+                            className="scheduling-card"
+                            onClick={() => navigate('/assign-courses-batch')}
+                        >
+                            Bulk Course Assignment
                         </button>
 
                     </div>
