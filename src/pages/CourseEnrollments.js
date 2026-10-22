@@ -146,30 +146,31 @@ function CourseEnrollments() {
         <div className="management-page">
 
             {/* Page Header */}
+     
+            <div className="management-actions">
+                <button
+                    type="button"
+                    className="management-button"
+                    onClick={() => navigate('/course-enrollments/add')}
+                >
+                    + Add Enrollment
+                </button>
 
-            <div className="management-header">
-                <div>
-                    <h1>Course Enrollments</h1>
-                    <p>Manage student course enrollments</p>
-                </div>
+                <button
+                    type="button"
+                    className="management-button"
+                    onClick={() => navigate('/assign-courses-batch')}
+                >
+                    Bulk Course Assignment
+                </button>
 
-                <div className="management-actions">
-                    <button
-                        className="management-button"
-                        onClick={() =>
-                            navigate('/course-enrollments/add')
-                        }
-                    >
-                        + Add Enrollment
-                    </button>
-
-                    <button
-                        className="management-button"
-                        onClick={() => navigate('/admin')}
-                    >
-                        Back to Admin
-                    </button>
-                </div>
+                <button
+                    type="button"
+                    className="management-button"
+                    onClick={() => navigate('/admin')}
+                >
+                    Back to Admin
+                </button>
             </div>
 
             {/* Statistics */}
