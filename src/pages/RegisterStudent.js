@@ -163,13 +163,23 @@ function RegisterStudent() {
                         </p>
                     </div>
 
-                    <button
-                        type="button"
-                        className="register-back-button"
-                        onClick={() => navigate('/admin')}
-                    >
-                        ← Dashboard
-                    </button>
+                    <div className="register-header-actions">
+                        <button
+                            type="button"
+                            className="register-back-button"
+                            onClick={() => navigate('/admin')}
+                        >
+                            ← Dashboard
+                        </button>
+
+                        <button
+                            type="button"
+                            className="register-back-button"
+                            onClick={() => navigate('/bulk-register-students')}
+                        >
+                            ↑ Bulk Registration
+                        </button>
+                    </div>
                 </header>
 
                 <section className="register-student-card">

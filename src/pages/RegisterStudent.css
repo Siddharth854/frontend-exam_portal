@@ -253,3 +253,17 @@
         width: 100%;
     }
 }
+
+.register-header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 700px) {
+    .register-header-actions {
+        justify-content: flex-start;
+    }
+}

@@ -36,6 +36,7 @@ import AdminStudents from './pages/AdminStudents.js';
 import StudentExamShifts from './pages/StudentExamShifts.js';
 import ResessionalExams from "./pages/ResessionalExams.jsx";
 import RegisterStudent from './pages/RegisterStudent';
+import BulkRegisterStudents from './pages/BulkRegisterStudents';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -96,6 +97,15 @@ function App() {
 
         <Route path='/home' element={<PrivateRoute element={<Home />} allowedRoles={['student', 'teacher', 'admin']}
         />} />
+        <Route
+            path="/bulk-register-students"
+            element={
+                <PrivateRoute
+                    element={<BulkRegisterStudents />}
+                    allowedRoles={['admin']}
+                />
+            }
+        />
 
         <Route
             path="/register-student"
