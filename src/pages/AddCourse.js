@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,45 +8,52 @@ function AddCourse() {
     const [courseInfo, setCourseInfo] = useState({
         courseCode: '',
         courseName: '',
+        program: '',
         department: '',
         semester: '',
         examDuration: ''
     });
 
     const [message, setMessage] = useState('');
+    const [saving, setSaving] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
 
-        setCourseInfo({
-            ...courseInfo,
+        setCourseInfo((previous) => ({
+            ...previous,
             [name]: value
-        });
+        }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setMessage('');
 
         const {
-            courseCode,
-            courseName,
-            department,
-            semester,
-            examDuration
-        } = courseInfo;
+    courseCode,
+    courseName,
+    program,       // MCA, BSC, MSC, or BTECH
+    department,
+    semester,
+    examDuration
+} = courseInfo;
 
         if (
-            !courseCode ||
-            !courseName ||
-            !department ||
+            !courseCode.trim() ||
+            !courseName.trim() ||
+            !program ||
+            !department.trim() ||
             !semester ||
             !examDuration
         ) {
-            setMessage('Please fill in all fields');
+            setMessage('Please fill in all fields.');
             return;
         }
 
         try {
+            setSaving(true);
+
             const response = await fetch(
                 'https://backend-exam-paper.vercel.app/courses/add',
                 {
@@ -54,9 +62,10 @@ function AddCourse() {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        courseCode,
-                        courseName,
-                        department,
+                        courseCode: courseCode.trim(),
+                        courseName: courseName.trim(),
+                        program,
+                        department: department.trim(),
                         semester: Number(semester),
                         examDuration: Number(examDuration)
                     })
@@ -66,23 +75,24 @@ function AddCourse() {
             const result = await response.json();
 
             if (!response.ok) {
-                setMessage(result.message || 'Unable to add course');
-                return;
+                throw new Error(result.message || 'Unable to add course.');
             }
 
-            setMessage('Course added successfully');
+            setMessage('Course added successfully.');
 
             setCourseInfo({
                 courseCode: '',
                 courseName: '',
+                program: '',
                 department: '',
                 semester: '',
                 examDuration: ''
             });
-
         } catch (error) {
             console.error('ADD COURSE ERROR:', error);
-            setMessage('Unable to connect to the server');
+            setMessage(error.message || 'Unable to connect to the server.');
+        } finally {
+            setSaving(false);
         }
     };
 
@@ -91,93 +101,118 @@ function AddCourse() {
             <h1>Add Course</h1>
 
             <form onSubmit={handleSubmit}>
-
                 <div>
-                    <label>Course Code</label>
-
+                    <label htmlFor="courseCode">Course Code</label>
                     <input
+                        id="courseCode"
                         type="text"
                         name="courseCode"
                         value={courseInfo.courseCode}
                         onChange={handleChange}
                         placeholder="Enter course code"
+                        required
                     />
                 </div>
 
                 <br />
 
                 <div>
-                    <label>Course Name</label>
-
+                    <label htmlFor="courseName">Course Name</label>
                     <input
+                        id="courseName"
                         type="text"
                         name="courseName"
                         value={courseInfo.courseName}
                         onChange={handleChange}
                         placeholder="Enter course name"
+                        required
                     />
                 </div>
 
                 <br />
 
                 <div>
-                    <label>Department</label>
+                    <label htmlFor="program">Program / Branch</label>
+                    <select
+                        id="program"
+                        name="program"
+                        value={courseInfo.program}
+                        onChange={handleChange}
+                        required
+                    >
+                        <option value="">Select program</option>
+                        <option value="MCA">MCA</option>
+                        <option value="BSC">BSc</option>
+                        <option value="MSC">MSc</option>
+                        <option value="BTECH">BTech</option>
+                    </select>
+                </div>
 
+                <br />
+
+                <div>
+                    <label htmlFor="department">Department</label>
                     <input
+                        id="department"
                         type="text"
                         name="department"
                         value={courseInfo.department}
                         onChange={handleChange}
-                        placeholder="Enter department"
+                        placeholder="e.g. Computer Application"
+                        required
                     />
                 </div>
 
                 <br />
 
                 <div>
-                    <label>Semester</label>
-
+                    <label htmlFor="semester">Semester</label>
                     <input
+                        id="semester"
                         type="number"
                         name="semester"
                         value={courseInfo.semester}
                         onChange={handleChange}
                         placeholder="Enter semester"
                         min="1"
+                        required
                     />
                 </div>
 
                 <br />
 
                 <div>
-                    <label>Exam Duration (minutes)</label>
-
+                    <label htmlFor="examDuration">
+                        Exam Duration (minutes)
+                    </label>
                     <input
+                        id="examDuration"
                         type="number"
                         name="examDuration"
                         value={courseInfo.examDuration}
                         onChange={handleChange}
                         placeholder="Enter duration in minutes"
                         min="30"
+                        required
                     />
                 </div>
 
                 <br />
 
-                <button type="submit">
-                    Add Course
+                <button type="submit" disabled={saving}>
+                    {saving ? 'Saving...' : 'Add Course'}
                 </button>
 
                 <button
                     type="button"
                     onClick={() => navigate('/courses')}
+                    disabled={saving}
                 >
                     Cancel
                 </button>
-
             </form>
 
-            {message && <p>{message}</p>}
+            {message && <p role="status">{message}</p>}
         </div>
     );
 }
