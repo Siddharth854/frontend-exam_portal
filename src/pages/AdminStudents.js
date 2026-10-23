@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Management.css';
@@ -23,12 +24,17 @@ function AdminStudents() {
         semester: ''
     });
 
+    // Fetch all students from the backend.
     const fetchStudents = async () => {
         try {
             setLoading(true);
             setError('');
 
             const token = localStorage.getItem('token');
+
+            if (!token) {
+                throw new Error('Please log in again.');
+            }
 
             const response = await fetch(`${API_BASE}/students`, {
                 headers: {
@@ -40,7 +46,7 @@ function AdminStudents() {
 
             if (!response.ok) {
                 throw new Error(
-                    result.message || 'Unable to load students'
+                    result.message || 'Unable to load students.'
                 );
             }
 
@@ -51,7 +57,7 @@ function AdminStudents() {
             );
         } catch (err) {
             console.error('Fetch students error:', err);
-            setError(err.message || 'Unable to load students');
+            setError(err.message || 'Unable to load students.');
         } finally {
             setLoading(false);
         }
@@ -61,6 +67,7 @@ function AdminStudents() {
         fetchStudents();
     }, []);
 
+    // Open the edit modal for the selected student.
     const openEditModal = (student) => {
         setEditingStudent(student);
 
@@ -76,6 +83,7 @@ function AdminStudents() {
         setError('');
     };
 
+    // Close the modal.
     const closeEditModal = () => {
         if (saving) return;
 
@@ -84,6 +92,7 @@ function AdminStudents() {
         setError('');
     };
 
+    // Handle changes to the edit form.
     const handleChange = (e) => {
         const { name, value } = e.target;
 
@@ -93,6 +102,7 @@ function AdminStudents() {
         }));
     };
 
+    // Update student details.
     const handleUpdate = async (e) => {
         e.preventDefault();
 
@@ -121,17 +131,23 @@ function AdminStudents() {
 
         if (
             !Number.isInteger(semesterNumber) ||
-            semesterNumber < 1
+            semesterNumber < 1 ||
+            semesterNumber > 10
         ) {
-            setMessage('Please enter a valid semester.');
+            setMessage('Please enter a valid semester between 1 and 10.');
             return;
         }
 
         try {
             setSaving(true);
             setMessage('');
+            setError('');
 
             const token = localStorage.getItem('token');
+
+            if (!token) {
+                throw new Error('Please log in again.');
+            }
 
             const response = await fetch(
                 `${API_BASE}/students/${editingStudent._id}`,
@@ -146,35 +162,19 @@ function AdminStudents() {
                         name: name.trim(),
                         email: email.trim().toLowerCase(),
                         department: department.trim(),
-                        semester: semesterNumber
+                        semester: semesterNumber,
+                        program: editingStudent.program
                     })
                 }
             );
 
             const result = await response.json();
 
-            if (!response.ok) {
+            if (!response.ok || !result.success) {
                 throw new Error(
-                    result.message || 'Unable to update student'
+                    result.message || 'Unable to update student.'
                 );
             }
-
-            setStudents((previous) =>
-                previous.map((student) =>
-                    student._id === editingStudent._id
-                        ? {
-                              ...student,
-                              ...result.student,
-                              user:
-                                  result.student?.user || {
-                                      ...student.user,
-                                      name: name.trim(),
-                                      email: email.trim().toLowerCase()
-                                  }
-                          }
-                        : student
-                )
-            );
 
             setMessage('Student details updated successfully.');
 
@@ -190,50 +190,72 @@ function AdminStudents() {
         }
     };
 
+    // Delete the student, linked user account, and course enrollments.
     const handleDeleteStudent = async () => {
-  if (!selectedStudent?._id) {
-    alert("Please select a student first.");
-    return;
-  }
-
-  const confirmed = window.confirm(
-    `Are you sure you want to permanently delete ${selectedStudent.studentId}? This will also delete their linked user account and course enrollments.`
-  );
-
-  if (!confirmed) return;
-
-  try {
-    const response = await fetch(
-      `${API_URL}/students/${selectedStudent._id}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`
+        if (!editingStudent?._id) {
+            setMessage('No student selected for deletion.');
+            return;
         }
-      }
-    );
 
-    const data = await response.json();
+        const confirmed = window.confirm(
+            `Are you sure you want to permanently delete student ${editingStudent.studentId}? ` +
+            'This will also delete the linked user account and course enrollments.'
+        );
 
-    if (!response.ok || !data.success) {
-      throw new Error(data.message || "Failed to delete student.");
-    }
+        if (!confirmed) {
+            return;
+        }
 
-    alert("Student and linked account deleted successfully.");
+        try {
+            setSaving(true);
+            setMessage('');
+            setError('');
 
-    setStudents((previousStudents) =>
-      previousStudents.filter(
-        (student) => student._id !== selectedStudent._id
-      )
-    );
+            const token = localStorage.getItem('token');
 
-    setSelectedStudent(null);
-    setIsEditModalOpen(false);
-  } catch (error) {
-    console.error("Delete student error:", error);
-    alert(error.message || "Unable to delete student.");
-  }
-};
+            if (!token) {
+                throw new Error('Please log in again to delete this student.');
+            }
+
+            const studentIdToDelete = editingStudent._id;
+
+            const response = await fetch(
+                `${API_BASE}/students/${studentIdToDelete}`,
+                {
+                    method: 'DELETE',
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+                throw new Error(
+                    result.message || 'Unable to delete student.'
+                );
+            }
+
+            // Remove the deleted student from the table.
+            setStudents((previousStudents) =>
+                previousStudents.filter(
+                    (student) => student._id !== studentIdToDelete
+                )
+            );
+
+            // Close the edit modal after successful deletion.
+            setEditingStudent(null);
+            setMessage('');
+
+            console.log('Student deleted successfully:', result);
+        } catch (err) {
+            console.error('DELETE STUDENT ERROR:', err);
+            setMessage(err.message || 'Unable to delete student.');
+        } finally {
+            setSaving(false);
+        }
+    };
 
     return (
         <div className="management-page">
@@ -263,7 +285,7 @@ function AdminStudents() {
             </div>
 
             {error && (
-                <p role="alert" style={{ color: 'red' }}>
+                <p role="alert" style={{ color: '#dc2626' }}>
                     {error}
                 </p>
             )}
@@ -369,6 +391,7 @@ function AdminStudents() {
                                 <label htmlFor="studentId">
                                     Student ID
                                 </label>
+
                                 <input
                                     id="studentId"
                                     name="studentId"
@@ -383,6 +406,7 @@ function AdminStudents() {
                                 <label htmlFor="name">
                                     Student Name
                                 </label>
+
                                 <input
                                     id="name"
                                     name="name"
@@ -397,6 +421,7 @@ function AdminStudents() {
                                 <label htmlFor="email">
                                     Email
                                 </label>
+
                                 <input
                                     id="email"
                                     name="email"
@@ -412,6 +437,7 @@ function AdminStudents() {
                                 <label htmlFor="department">
                                     Department
                                 </label>
+
                                 <input
                                     id="department"
                                     name="department"
@@ -426,11 +452,13 @@ function AdminStudents() {
                                 <label htmlFor="semester">
                                     Semester
                                 </label>
+
                                 <input
                                     id="semester"
                                     name="semester"
                                     type="number"
                                     min="1"
+                                    max="10"
                                     step="1"
                                     value={formData.semester}
                                     onChange={handleChange}
@@ -469,18 +497,11 @@ function AdminStudents() {
                                 <button
                                     type="button"
                                     onClick={handleDeleteStudent}
-                                    style={{
-                                        backgroundColor: "#dc2626",
-                                        color: "#ffffff",
-                                        padding: "10px 14px",
-                                        border: "none",
-                                        borderRadius: "6px",
-                                        cursor: "pointer",
-                                        fontWeight: "600"
-                                    }}
-                                    >
-                                    Delete Student
-                                    </button>
+                                    disabled={saving}
+                                    style={deleteButtonStyle}
+                                >
+                                    {saving ? 'Processing...' : 'Delete Student'}
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -503,6 +524,16 @@ const editButtonStyle = {
     padding: '8px 11px',
     cursor: 'pointer',
     fontSize: '16px'
+};
+
+const deleteButtonStyle = {
+    backgroundColor: '#dc2626',
+    color: '#ffffff',
+    padding: '10px 14px',
+    border: 'none',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    fontWeight: '600'
 };
 
 const overlayStyle = {
@@ -548,6 +579,7 @@ const inputStyle = {
 const actionStyle = {
     display: 'flex',
     justifyContent: 'flex-end',
+    flexWrap: 'wrap',
     gap: '10px',
     marginTop: '22px'
 };
