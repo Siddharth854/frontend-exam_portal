@@ -6,7 +6,6 @@ import './AssignCoursesToBatch.css';
 const API_URL = 'https://backend-exam-paper.vercel.app';
 
 const PROGRAMS = ['MCA', 'BCA', 'BTECH', 'BSC', 'MSC'];
-
 const DEPARTMENTS = ['Computer Application'];
 
 function getCoursesArray(data) {
@@ -34,7 +33,7 @@ function AssignCoursesToBatch() {
     const [notice, setNotice] = useState('');
     const [packageExists, setPackageExists] = useState(false);
 
-    // Load all courses from the backend.
+    // Load all available courses.
     useEffect(() => {
         let cancelled = false;
 
@@ -59,14 +58,14 @@ function AssignCoursesToBatch() {
                     );
                 }
 
-                const records = getCoursesArray(data);
-
                 if (!cancelled) {
-                    setCourses(records);
+                    setCourses(getCoursesArray(data));
                 }
             } catch (err) {
                 if (!cancelled) {
-                    setError(err.message || 'Could not load courses.');
+                    setError(
+                        err.message || 'Could not load courses.'
+                    );
                 }
             } finally {
                 if (!cancelled) {
@@ -82,7 +81,7 @@ function AssignCoursesToBatch() {
         };
     }, []);
 
-    // Display courses matching all three selected package fields.
+    // Filter courses using program, semester and department.
     const filteredCourses = useMemo(() => {
         return courses.filter((course) => {
             const courseProgram = String(course.program || '')
@@ -101,7 +100,7 @@ function AssignCoursesToBatch() {
         });
     }, [courses, program, semester, department]);
 
-    // Load the saved package when the selection changes.
+    // Automatically look up an existing package.
     useEffect(() => {
         let cancelled = false;
 
@@ -157,12 +156,13 @@ function AssignCoursesToBatch() {
 
                     setSelectedCourses(savedIds);
                     setPackageExists(true);
+
                     setNotice(
-                        'Existing package loaded. Change the selections and save to update it.'
+                        'Existing package loaded. Review the selected courses before updating.'
                     );
                 } else {
                     setNotice(
-                        'No package exists for this selection. Choose courses to create one.'
+                        'No package exists for this combination. Select courses to create one.'
                     );
                 }
             } catch (err) {
@@ -185,7 +185,7 @@ function AssignCoursesToBatch() {
         };
     }, [program, semester, department]);
 
-    // Change the package criteria.
+    // Change package criteria.
     const handleFilterChange = (setter, value) => {
         setter(value);
         setSelectedCourses([]);
@@ -206,7 +206,7 @@ function AssignCoursesToBatch() {
         setError('');
     };
 
-    // Select all currently visible courses.
+    // Select all visible courses.
     const selectAllCourses = () => {
         setSelectedCourses((previous) => {
             const combined = new Set(previous);
@@ -222,7 +222,7 @@ function AssignCoursesToBatch() {
         setError('');
     };
 
-    // Deselect all currently visible courses.
+    // Clear visible course selections.
     const clearCourseSelection = () => {
         const visibleIds = new Set(
             filteredCourses.map((course) => String(course._id))
@@ -236,7 +236,7 @@ function AssignCoursesToBatch() {
         setError('');
     };
 
-    // Save or update a reusable package.
+    // Save a new package or update an existing one.
     const handleSavePackage = async (event) => {
         event.preventDefault();
 
@@ -263,7 +263,7 @@ function AssignCoursesToBatch() {
 
         if (invalidSelection) {
             setError(
-                'Your selection contains courses outside the current package criteria. Please review your selections.'
+                'Your selection contains courses outside the current criteria. Review your selections.'
             );
             return;
         }
@@ -318,10 +318,13 @@ function AssignCoursesToBatch() {
 
             setPackageExists(true);
             setNotice(
-                data.message || 'Course package saved successfully.'
+                data.message ||
+                'Course package saved successfully.'
             );
         } catch (err) {
-            setError(err.message || 'Could not save course package.');
+            setError(
+                err.message || 'Could not save course package.'
+            );
         } finally {
             setSubmitting(false);
         }
@@ -331,10 +334,15 @@ function AssignCoursesToBatch() {
         <div className="batch-assignment-page">
             <header className="batch-header">
                 <div>
+                    <span className="batch-eyebrow">
+                        ADMINISTRATION / ACADEMICS
+                    </span>
+
                     <h1>Bulk Course Assignment</h1>
+
                     <p>
-                        Create reusable course packages by program,
-                        semester, and department.
+                        Create and manage reusable course packages
+                        by program, semester, and department.
                     </p>
                 </div>
 
@@ -343,7 +351,7 @@ function AssignCoursesToBatch() {
                     className="batch-back-button"
                     onClick={() => navigate('/admin')}
                 >
-                    Back to Dashboard
+                    ← Back to Dashboard
                 </button>
             </header>
 
@@ -351,11 +359,21 @@ function AssignCoursesToBatch() {
                 className="batch-panel"
                 onSubmit={handleSavePackage}
             >
-                <h2>Course Package Details</h2>
+                <div className="batch-section-heading">
+                    <div className="batch-heading-icon">01</div>
+
+                    <div>
+                        <h2>Course Package Details</h2>
+                        <p>
+                            Choose the academic combination for this package.
+                        </p>
+                    </div>
+                </div>
 
                 <div className="batch-filters">
                     <label>
                         Program / Branch
+
                         <select
                             value={program}
                             onChange={(event) =>
@@ -376,6 +394,7 @@ function AssignCoursesToBatch() {
 
                     <label>
                         Semester
+
                         <select
                             value={semester}
                             onChange={(event) =>
@@ -390,7 +409,10 @@ function AssignCoursesToBatch() {
                                 { length: 10 },
                                 (_, index) => index + 1
                             ).map((number) => (
-                                <option key={number} value={number}>
+                                <option
+                                    key={number}
+                                    value={number}
+                                >
                                     Semester {number}
                                 </option>
                             ))}
@@ -399,6 +421,7 @@ function AssignCoursesToBatch() {
 
                     <label>
                         Department
+
                         <select
                             value={department}
                             onChange={(event) =>
@@ -418,28 +441,75 @@ function AssignCoursesToBatch() {
                     </label>
                 </div>
 
-                <div className="batch-package-status">
-                    <strong>
-                        {program} · Semester {semester}
-                    </strong>
-                    <span>{department}</span>
+                {/* Existing package warning or new package status */}
+                <div
+                    className={`batch-package-status ${
+                        loadingPackage
+                            ? 'is-loading'
+                            : packageExists
+                                ? 'is-existing'
+                                : 'is-new'
+                    }`}
+                    aria-live="polite"
+                >
+                    <div
+                        className="batch-package-status-icon"
+                        aria-hidden="true"
+                    >
+                        {loadingPackage
+                            ? '…'
+                            : packageExists
+                                ? '✓'
+                                : '+'}
+                    </div>
 
-                    {loadingPackage ? (
-                        <p>Checking for an existing package...</p>
-                    ) : (
-                        <p>
-                            {packageExists
-                                ? 'An existing package was found.'
-                                : 'No saved package for this combination yet.'}
+                    <div className="batch-package-status-content">
+                        <div className="batch-package-status-heading">
+                            <strong>
+                                {program} · Semester {semester}
+                            </strong>
+
+                            <span
+                                className={`batch-status-pill ${
+                                    loadingPackage
+                                        ? 'is-loading'
+                                        : packageExists
+                                            ? 'is-existing'
+                                            : 'is-new'
+                                }`}
+                            >
+                                {loadingPackage
+                                    ? 'Checking'
+                                    : packageExists
+                                        ? 'Package exists'
+                                        : 'New package'}
+                            </span>
+                        </div>
+
+                        <p className="batch-package-department">
+                            {department}
                         </p>
-                    )}
+
+                        <p className="batch-package-status-message">
+                            {loadingPackage
+                                ? 'Checking whether a package has already been saved for this combination…'
+                                : packageExists
+                                    ? 'A course package already exists for these details. Review the selected courses below. Saving changes will update the existing package instead of creating another one.'
+                                    : 'No package exists for this combination yet. Select the courses you want to include, then create the package.'}
+                        </p>
+                    </div>
                 </div>
 
                 <div className="batch-course-heading">
                     <div>
+                        <span className="batch-eyebrow">
+                            COURSE CATALOGUE
+                        </span>
+
                         <h2>Available Courses</h2>
+
                         <p>
-                            Select all courses that belong in this package.
+                            Select the courses that belong in this package.
                         </p>
                     </div>
 
@@ -467,13 +537,17 @@ function AssignCoursesToBatch() {
                 </div>
 
                 {loadingCourses ? (
-                    <p>Loading courses...</p>
+                    <div className="batch-loading">
+                        Loading courses…
+                    </div>
                 ) : filteredCourses.length === 0 ? (
-                    <p className="batch-empty">
-                        No courses match this program, semester, and
-                        department. Check your existing course records
-                        before creating a package.
-                    </p>
+                    <div className="batch-empty">
+                        <strong>No matching courses found</strong>
+                        <p>
+                            No courses match this program, semester,
+                            and department. Check your course records.
+                        </p>
+                    </div>
                 ) : (
                     <div className="batch-course-list">
                         {filteredCourses.map((course) => (
@@ -489,57 +563,104 @@ function AssignCoursesToBatch() {
                                     onChange={() =>
                                         toggleCourse(String(course._id))
                                     }
-                                    disabled={loadingPackage || submitting}
+                                    disabled={
+                                        loadingPackage || submitting
+                                    }
                                 />
 
-                                <span>
+                                <span className="batch-course-option-text">
                                     <strong>{course.courseCode}</strong>
-                                    {' — '}
+                                    <span className="batch-course-dash">
+                                        —
+                                    </span>
                                     {course.courseName}
                                 </span>
+
+                                {selectedCourses.includes(
+                                    String(course._id)
+                                ) && (
+                                    <span className="batch-selected-label">
+                                        Selected
+                                    </span>
+                                )}
                             </label>
                         ))}
                     </div>
                 )}
 
-                <p className="batch-selection-count">
-                    {selectedCourses.length} course(s) selected
-                </p>
+                <div className="batch-selection-summary">
+                    <div>
+                        <span className="batch-selection-number">
+                            {selectedCourses.length}
+                        </span>
+
+                        <span>
+                            course(s) selected
+                        </span>
+                    </div>
+
+                    <span className="batch-summary-program">
+                        {program} / Sem {semester}
+                    </span>
+                </div>
 
                 {error && (
-                    <p className="batch-error" role="alert">
-                        {error}
-                    </p>
+                    <div className="batch-error" role="alert">
+                        <strong>Unable to continue</strong>
+                        <p>{error}</p>
+                    </div>
                 )}
 
                 {notice && (
-                    <p className="batch-notice" role="status">
+                    <div
+                        className={`batch-notice ${
+                            packageExists
+                                ? 'batch-notice-existing'
+                                : ''
+                        }`}
+                        role="status"
+                    >
                         {notice}
-                    </p>
+                    </div>
                 )}
 
-                <button
-                    type="submit"
-                    className="batch-submit-button"
-                    disabled={
-                        submitting ||
-                        loadingCourses ||
-                        loadingPackage ||
-                        filteredCourses.length === 0 ||
-                        selectedCourses.length === 0
-                    }
-                >
-                    {submitting
-                        ? 'Saving Package...'
-                        : packageExists
-                            ? 'Update Course Package'
-                            : 'Save Course Package'}
-                </button>
+                <div className="batch-submit-area">
+                    <div className="batch-submit-description">
+                        <strong>
+                            {packageExists
+                                ? 'Update existing package'
+                                : 'Create course package'}
+                        </strong>
+
+                        <p>
+                            {packageExists
+                                ? 'Your changes will be saved to this package.'
+                                : 'Your selection will be saved as a reusable package.'}
+                        </p>
+                    </div>
+
+                    <button
+                        type="submit"
+                        className="batch-submit-button"
+                        disabled={
+                            submitting ||
+                            loadingCourses ||
+                            loadingPackage ||
+                            filteredCourses.length === 0 ||
+                            selectedCourses.length === 0
+                        }
+                    >
+                        {submitting
+                            ? 'Saving Package…'
+                            : packageExists
+                                ? 'Update Course Package →'
+                                : 'Create Course Package →'}
+                    </button>
+                </div>
 
                 <p className="batch-package-note">
-                    Saving a package does not enroll students yet.
-                    Student enrollment will be connected to bulk
-                    registration in the next step.
+                    Saving a package does not enroll students.
+                    Student enrollment remains a separate operation.
                 </p>
             </form>
         </div>
@@ -547,4 +668,3 @@ function AssignCoursesToBatch() {
 }
 
 export default AssignCoursesToBatch;
-    
