@@ -315,12 +315,48 @@ function AssignCoursesToBatch() {
                         : data.message || 'Could not save course package.'
                 );
             }
+    
+        setPackageExists(true);
+        setNotice('Package saved. Assigning courses to eligible students…');
 
-            setPackageExists(true);
-            setNotice(
-                data.message ||
-                'Course package saved successfully.'
+        const assignmentResponse = await fetch(
+            `${API_URL}/course-enrollments/assign-batch`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    program,
+                    semester: Number(semester),
+                    department: department.trim(),
+                    courseIds: selectedCourses
+                })
+            }
+        );
+
+        const assignmentData = await assignmentResponse.json();
+
+        if (!assignmentResponse.ok) {
+            throw new Error(
+                `Package saved, but enrollment assignment failed: ${
+                    assignmentData.message || 'Unknown error'
+                }`
             );
+        }
+
+        const summary = assignmentData.summary || {};
+
+        setNotice(
+            `Package saved. Assignment complete: ${
+                summary.created ?? 0
+            } new enrollments, ${
+                summary.existing ?? summary.skipped ?? 0
+            } already existing.`
+        );
+
+
         } catch (err) {
             setError(
                 err.message || 'Could not save course package.'
