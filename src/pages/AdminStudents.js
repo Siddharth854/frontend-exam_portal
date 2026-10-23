@@ -190,6 +190,51 @@ function AdminStudents() {
         }
     };
 
+    const handleDeleteStudent = async () => {
+  if (!selectedStudent?._id) {
+    alert("Please select a student first.");
+    return;
+  }
+
+  const confirmed = window.confirm(
+    `Are you sure you want to permanently delete ${selectedStudent.studentId}? This will also delete their linked user account and course enrollments.`
+  );
+
+  if (!confirmed) return;
+
+  try {
+    const response = await fetch(
+      `${API_URL}/students/${selectedStudent._id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      throw new Error(data.message || "Failed to delete student.");
+    }
+
+    alert("Student and linked account deleted successfully.");
+
+    setStudents((previousStudents) =>
+      previousStudents.filter(
+        (student) => student._id !== selectedStudent._id
+      )
+    );
+
+    setSelectedStudent(null);
+    setIsEditModalOpen(false);
+  } catch (error) {
+    console.error("Delete student error:", error);
+    alert(error.message || "Unable to delete student.");
+  }
+};
+
     return (
         <div className="management-page">
             <div className="management-header">
@@ -420,6 +465,22 @@ function AdminStudents() {
                                 >
                                     {saving ? 'Saving...' : 'Save Changes'}
                                 </button>
+
+                                <button
+                                    type="button"
+                                    onClick={handleDeleteStudent}
+                                    style={{
+                                        backgroundColor: "#dc2626",
+                                        color: "#ffffff",
+                                        padding: "10px 14px",
+                                        border: "none",
+                                        borderRadius: "6px",
+                                        cursor: "pointer",
+                                        fontWeight: "600"
+                                    }}
+                                    >
+                                    Delete Student
+                                    </button>
                             </div>
                         </form>
                     </div>
