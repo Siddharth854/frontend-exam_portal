@@ -84,3 +84,88 @@ button {
     align-items: center;
     background: #f4f6f9;
 }
+
+
+/* ===== Improved readability across management tables ===== */
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #172033;
+    font-size: 16px;
+}
+
+/* Table text */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #172033 !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 15px !important;
+}
+
+/* Table headings */
+table thead th,
+table th {
+    background-color: #e8edf5;
+    color: #111827 !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    padding: 14px 16px !important;
+    border: 1px solid #cbd5e1 !important;
+    text-align: left;
+}
+
+/* Table data */
+table tbody td,
+table td {
+    color: #1f2937 !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    padding: 14px 16px !important;
+    border: 1px solid #d1d5db !important;
+    line-height: 1.6 !important;
+    vertical-align: middle;
+}
+
+/* Alternating rows */
+table tbody tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+table tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+/* Hover effect */
+table tbody tr:hover {
+    background-color: #eaf2ff;
+}
+
+/* Page headings */
+h1,
+h2,
+h3 {
+    color: #111827;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 700;
+}
+
+/* Form labels */
+label {
+    color: #1f2937;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+/* Form inputs and dropdowns */
+input,
+select,
+textarea {
+    color: #111827;
+    font-size: 15px;
+}
+
+/* Buttons */
+button {
+    font-weight: 600;
+}
