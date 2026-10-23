@@ -109,6 +109,7 @@ function RegisterStudent() {
                     studentId: formData.studentId.trim(),
                     email,
                     department: formData.department.trim(),
+                    program: formData.program.trim().toUpperCase(),
                     semester
                 })
             });
