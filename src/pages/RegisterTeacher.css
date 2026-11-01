@@ -1,0 +1,182 @@
+
+.register-teacher-page {
+    min-height: 100vh;
+    padding: 35px 20px;
+    background: #f4f6fb;
+    font-family: Arial, sans-serif;
+}
+
+.register-teacher-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 35px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.06);
+}
+
+.teacher-back-button {
+    border: none;
+    background: transparent;
+    color: #4f46e5;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 25px;
+}
+
+.teacher-back-button:hover {
+    color: #3730a3;
+}
+
+.teacher-form-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.teacher-header-icon {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+.teacher-form-header h1 {
+    color: #1e293b;
+    font-size: 28px;
+    margin: 0 0 10px;
+}
+
+.teacher-form-header p {
+    color: #64748b;
+    font-size: 14px;
+    margin: 0;
+}
+
+.teacher-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.teacher-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.teacher-form-group label {
+    color: #334155;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.teacher-form-group input,
+.teacher-form-group select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 14px;
+    border: 1px solid #dbe1ea;
+    border-radius: 8px;
+    outline: none;
+    background: #fff;
+    color: #1e293b;
+    font-size: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.teacher-form-group input:focus,
+.teacher-form-group select:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+.teacher-form-group input::placeholder {
+    color: #94a3b8;
+}
+
+.teacher-form-message {
+    padding: 13px 15px;
+    margin-top: 25px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.teacher-form-message.success {
+    color: #166534;
+    background: #dcfce7;
+    border: 1px solid #bbf7d0;
+}
+
+.teacher-form-message.error {
+    color: #991b1b;
+    background: #fee2e2;
+    border: 1px solid #fecaca;
+}
+
+.teacher-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 35px;
+}
+
+.teacher-cancel-button,
+.teacher-submit-button {
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.teacher-cancel-button {
+    color: #475569;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+}
+
+.teacher-cancel-button:hover {
+    background: #e2e8f0;
+}
+
+.teacher-submit-button {
+    color: #ffffff;
+    background: #4f46e5;
+    border: none;
+}
+
+.teacher-submit-button:hover {
+    background: #4338ca;
+}
+
+.teacher-submit-button:disabled {
+    background: #a5b4fc;
+    cursor: not-allowed;
+}
+
+@media (max-width: 650px) {
+    .register-teacher-page {
+        padding: 18px 12px;
+    }
+
+    .register-teacher-container {
+        padding: 22px 18px;
+    }
+
+    .teacher-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .teacher-form-header h1 {
+        font-size: 23px;
+    }
+
+    .teacher-form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .teacher-cancel-button,
+    .teacher-submit-button {
+        width: 100%;
+    }
+}

@@ -304,6 +304,34 @@ function Admin() {
 
                     </div>
                 </section>
+                {/* User Management Section */}
+                <section className="scheduling-section">
+                    <h2>User Management</h2>
+
+                    <div className="scheduling-grid">
+
+                        <button
+                            type="button"
+                            className="scheduling-card"
+                            onClick={() => navigate('/register-teacher')}
+                        >
+                            <span>👨‍🏫</span>
+                            <h3>Register New Teacher</h3>
+                            <p>Create a teacher login account and profile.</p>
+                        </button>
+
+                        <button
+                            type="button"
+                            className="scheduling-card"
+                            onClick={() => navigate('/bulk-register-teachers')}
+                        >
+                            <span>📊</span>
+                            <h3>Bulk Teacher Registration</h3>
+                            <p>Register multiple teachers using an Excel file.</p>
+                        </button>
+
+                    </div>
+                </section>
             </main>
 
         </div>
