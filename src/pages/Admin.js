@@ -1,3 +1,4 @@
+
 import './Admin.css';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -70,11 +71,9 @@ function Admin() {
 
                 setStats(Object.fromEntries(results));
                 setStatsError('');
+
             } catch (error) {
-                console.error(
-                    'Dashboard statistics error:',
-                    error
-                );
+                console.error('Dashboard statistics error:', error);
                 setStatsError(error.message);
             }
         };
@@ -158,17 +157,9 @@ function Admin() {
                     >
                         Course Enrollments
                     </button>
-
-                    {/* <button
-                        type="button"
-                        className="sidebar-button"
-                        onClick={() => navigate('/resessional-exams')}
-                    >
-                        Resessional Exam Management
-                    </button> */}
                 </div>
 
-                {/* Scheduling Section */}
+                {/* Scheduling Sidebar */}
                 <div className="sidebar-section">
                     <p className="sidebar-title">Scheduling</p>
 
@@ -233,7 +224,7 @@ function Admin() {
 
                 {/* Dashboard Statistics */}
                 <div className="dashboard-grid">
-                    
+
                     <div className="dashboard-card">
                         <h3>Students</h3>
                         <p>{stats.students ?? '—'}</p>
@@ -279,33 +270,87 @@ function Admin() {
                     </p>
                 )}
 
-                {/* Scheduling Operations */}
-                {/* User Management */}
+                {/* Original Scheduling Operations */}
                 <section className="scheduling-section">
-                    <h2>User Management</h2>
+
+                    <h2>Scheduling Operations</h2>
 
                     <div className="scheduling-grid">
 
                         <button
                             type="button"
                             className="scheduling-card"
-                            onClick={() => navigate('/register-teacher')}
+                            onClick={() => navigate('/timetable')}
                         >
-                            + Register New Teacher
+                            Timetable
                         </button>
 
                         <button
                             type="button"
                             className="scheduling-card"
-                            onClick={() => navigate('/bulk-register-teachers')}
+                            onClick={() => navigate('/room-allocation')}
                         >
-                            ↑ Bulk Teacher Registration
+                            Room Allocation
+                        </button>
+
+                        <button
+                            type="button"
+                            className="scheduling-card"
+                            onClick={() => navigate('/seating-arrangement')}
+                        >
+                            Seating Arrangement
+                        </button>
+
+                        <button
+                            type="button"
+                            className="scheduling-card"
+                            onClick={() => navigate('/invigilation-duty')}
+                        >
+                            Invigilation Duty
+                        </button>
+
+                        <button
+                            type="button"
+                            className="scheduling-card"
+                            onClick={() => navigate('/resessional-exams')}
+                        >
+                            Resessional Exam Management
                         </button>
 
                     </div>
+
                 </section>
-                {/* User Management Section */}
+
+                {/* Additional Operations */}
                 <section className="scheduling-section">
+
+                    <h2>Additional Operations</h2>
+
+                    <div className="scheduling-grid">
+
+                        <button
+                            type="button"
+                            className="scheduling-card"
+                            onClick={() => navigate('/register-student')}
+                        >
+                            Register New Student
+                        </button>
+
+                        <button
+                            type="button"
+                            className="scheduling-card"
+                            onClick={() => navigate('/assign-courses-batch')}
+                        >
+                            Bulk Course Assignment
+                        </button>
+
+                    </div>
+
+                </section>
+
+                {/* User Management */}
+                <section className="scheduling-section">
+
                     <h2>User Management</h2>
 
                     <div className="scheduling-grid">
@@ -317,7 +362,9 @@ function Admin() {
                         >
                             <span>👨‍🏫</span>
                             <h3>Register New Teacher</h3>
-                            <p>Create a teacher login account and profile.</p>
+                            <p>
+                                Create a teacher login account and profile.
+                            </p>
                         </button>
 
                         <button
@@ -327,11 +374,15 @@ function Admin() {
                         >
                             <span>📊</span>
                             <h3>Bulk Teacher Registration</h3>
-                            <p>Register multiple teachers using an Excel file.</p>
+                            <p>
+                                Register multiple teachers using an Excel file.
+                            </p>
                         </button>
 
                     </div>
+
                 </section>
+
             </main>
 
         </div>
