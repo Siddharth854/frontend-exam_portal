@@ -274,13 +274,13 @@ function AdminStudents() {
                         Back to Dashboard
                     </button>
 
-                    <button
+                    {/* <button
                         type="button"
                         className="management-button"
                         onClick={() => navigate('/students/add')}
                     >
                         + Add Student
-                    </button>
+                    </button> */}
                 </div>
             </div>
 
