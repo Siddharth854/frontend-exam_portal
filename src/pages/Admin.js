@@ -280,70 +280,29 @@ function Admin() {
                 )}
 
                 {/* Scheduling Operations */}
+                {/* User Management */}
                 <section className="scheduling-section">
-
-                    <h2>Scheduling Operations</h2>
+                    <h2>User Management</h2>
 
                     <div className="scheduling-grid">
 
                         <button
                             type="button"
                             className="scheduling-card"
-                            onClick={() => navigate('/register-student')}
+                            onClick={() => navigate('/register-teacher')}
                         >
-                            + Register New Student
+                            + Register New Teacher
                         </button>
 
                         <button
                             type="button"
                             className="scheduling-card"
-                            onClick={() => navigate('/timetable')}
+                            onClick={() => navigate('/bulk-register-teachers')}
                         >
-                            Timetable
-                        </button>
-
-                        <button
-                            type="button"
-                            className="scheduling-card"
-                            onClick={() => navigate('/room-allocation')}
-                        >
-                            Room Allocation
-                        </button>
-
-                        <button
-                            type="button"
-                            className="scheduling-card"
-                            onClick={() => navigate('/seating-arrangement')}
-                        >
-                            Seating Arrangement
-                        </button>
-
-                        <button
-                            type="button"
-                            className="scheduling-card"
-                            onClick={() => navigate('/invigilation-duty')}
-                        >
-                            Invigilation Duty
-                        </button>
-
-                        <button
-                            type="button"
-                            className="scheduling-card"
-                            onClick={() => navigate('/resessional-exams')}
-                        >
-                            Resessional Exam Management
-                        </button>
-
-                        <button
-                            type="button"
-                            className="scheduling-card"
-                            onClick={() => navigate('/assign-courses-batch')}
-                        >
-                            Bulk Course Assignment
+                            ↑ Bulk Teacher Registration
                         </button>
 
                     </div>
-
                 </section>
             </main>
 

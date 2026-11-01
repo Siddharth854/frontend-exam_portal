@@ -38,6 +38,9 @@ import ResessionalExams from "./pages/ResessionalExams.jsx";
 import RegisterStudent from './pages/RegisterStudent';
 import BulkRegisterStudents from './pages/BulkRegisterStudents';
 import AssignCoursesToBatch from './pages/AssignCoursesToBatch.js';
+import RegisterTeacher from './pages/RegisterTeacher';
+import BulkRegisterTeachers from './pages/BulkRegisterTeachers';
+
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -377,7 +380,27 @@ function App() {
                 />
             }
         />
-        
+
+        <Route
+    path="/register-teacher"
+    element={
+        <PrivateRoute
+            element={<RegisterTeacher />}
+            allowedRoles={['admin']}
+        />
+    }
+/>
+
+      <Route
+          path="/bulk-register-teachers"
+          element={
+              <PrivateRoute
+                  element={<BulkRegisterTeachers />}
+                  allowedRoles={['admin']}
+              />
+          }
+      />
+
       </Routes>
     </div>
   )
